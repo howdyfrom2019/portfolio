@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     colors: {
       black: "#000000",
-      white: "#ffffff"
+      white: "#ffffff",
+      gray: "#A9A7A1",
     },
     fontFamily: {
       sans: ["Linlegrey", "Roboto"],
