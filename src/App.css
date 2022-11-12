@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
   text-align: center;
 }
@@ -35,4 +39,25 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: Genshin;
+  src: url("./fonts/zh-cn.ttf")format("truetype"),
+  url("./fonts/zh-cn.woff")format("woff"),
+  url("./fonts/zh-cn.woff2")format("woff2");
+}
+
+@font-face {
+  font-family: Destine;
+  src: url("./fonts/DestinePersonalUseRegular.otf")format("opentype"),
+  url("./fonts/DestinePersonalUseRegular.woff")format("woff"),
+  url("./fonts/DestinePersonalUseRegular.woff2")format("woff2");
+}
+
+@font-face {
+  font-family: Linlegrey;
+  src: url("./fonts/Linlegreyregular.ttf")format("truetype"),
+  url("./fonts/Linlegreyregular.woff")format("woff"),
+  url("./fonts/Linlegreyregular.woff2")format("woff2");
 }
