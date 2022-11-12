@@ -1,10 +1,21 @@
 import BasicLayout from "../layout/BasicLayout";
 import ScrollNoti from "../components/ScrollNoti";
+import scrollListener from "../utils/scrollListener";
+import {useRef, useState} from "react";
 
 const PortfolioMain = () => {
+  const scrollY = useRef(0);
+  const [showNoti, setShowNoti] = useState(true);
+  scrollListener(() => {
+    const currentHeight = window.scrollY;
+    if (scrollY.current < currentHeight) {
+      setShowNoti(false);
+    }
+    scrollY.current = currentHeight;
+  });
   return(
     <BasicLayout>
-      <ScrollNoti />
+      {showNoti && <ScrollNoti />}
     </BasicLayout>
   )
 }
