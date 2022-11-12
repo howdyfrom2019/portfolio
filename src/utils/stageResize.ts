@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-const StageResize = (callback: (e: UIEvent) => void) => {
+export const StageResize = (callback: (e: UIEvent) => void) => {
   useEffect(() => {
     window.addEventListener("resize", callback, false);
     return () => {
@@ -8,5 +8,3 @@ const StageResize = (callback: (e: UIEvent) => void) => {
     }
   }, [callback]);
 }
-
-export default StageResize;

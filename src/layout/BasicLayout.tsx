@@ -4,8 +4,8 @@ import Button from "../components/Button";
 const BasicLayout: React.FC<{ children: ReactNode}> = ({ children}) => {
 
   return (
-    <div className={"fixed top-0 w-screen h-screen flex flex-col p-11 z-10"}>
-      <div className={"relative w-full h-full"}>
+    <div className={"fixed top-0 w-screen h-screen flex flex-col p-11"}>
+      <div className={"relative w-full h-full z-10"}>
         <div className={"absolute top-0 left-0 w-full flex items-center justify-between"}>
           <span className={"font-genshin text-sm uppercase cursor-pointer mix-blend-color"}>Project: Fucking Awesome!</span>
           <Button className={"cursor-pointer text-black mix-blend-color"}>Menu</Button>

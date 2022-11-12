@@ -2,7 +2,7 @@ import React, {ReactNode, useState} from "react";
 import checkEnv from "../utils/checkEnv";
 import { ReactComponent as ScrollIcon } from "../assets/svg/mouse_scroll.svg";
 import { ReactComponent as ScrollMobileIcon } from "../assets/svg/mobile_scroll.svg";
-import StageResize from "../utils/stageResize";
+import { StageResize } from "../utils/stageResize";
 import {standards} from "../styles/standards";
 
 const ScrollNoti = () => {
