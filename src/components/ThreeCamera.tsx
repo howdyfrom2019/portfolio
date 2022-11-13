@@ -4,6 +4,12 @@ import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
 
+interface GroupedImageRenderProps {
+  srcs: string[];
+  eachPosition: { x: number; y: number; z: number; }[];
+  ratioScale?: number;
+}
+
 const ThreeCamera = () => {
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
@@ -24,27 +30,42 @@ const ThreeCamera = () => {
   });
   ScrollEvent(() => {
     cntPage.current = Math.ceil(window.scrollY / 100);
-  })
+  });
+
+  const renderLayerGroupedImage = useCallback((args: GroupedImageRenderProps) => {
+    const { srcs, eachPosition, ratioScale } = args;
+    srcs.forEach((src, i) => {
+      const imageMap = new THREE.TextureLoader().load(src, (tex) => {
+        const width = Math.floor(tex.image.width / (ratioScale || 10));
+        const height = Math.floor(tex.image.height / (ratioScale || 10));
+        const geometry = new THREE.BoxGeometry(width, height, 1);
+        const material = new THREE.MeshPhongMaterial({ map: imageMap, transparent: true, color: 0xffffff });
+        const boxMesh = new THREE.Mesh(geometry, material);
+        const { x, y, z } = eachPosition[i];
+        boxMesh.position.set(x, y, z);
+        pngGroup.current.add(boxMesh);
+      });
+    });
+  }, []);
   
   const addLocalImagesToPngGroup = useCallback(async() => {
     const introduction: string[] = await ImageLoader(1, 3);
-    introduction.forEach((intro, i) => {
-      const imageMap = new THREE.TextureLoader().load(intro,
-        (texture) => {
-          const cntWidth = Math.floor(texture.image.width / 10);
-          const cntHeight = Math.floor(texture.image.height/ 10);
-          const geometry = new THREE.BoxGeometry(cntWidth, cntHeight, 1);
-          const material = new THREE.MeshPhongMaterial({ map: imageMap, transparent: true, color: 0xffffff });
-          const boxMesh = new THREE.Mesh(geometry, material);
-
-          // boxMesh.position.set(0, 0, -i * 20);
-          i === 0 && boxMesh.position.set(-10, 10, 0);
-          i === 1 && boxMesh.position.set(30, -7, 0);
-          i === 2 && boxMesh.position.set(-55, -28, 0);
-          pngGroup.current.add(boxMesh);
-        });
-    });
-  }, []);
+    const diveMsg = await ImageLoader(4);
+    const diveMsg2 = await ImageLoader(5);
+    const ocean = await ImageLoader(6);
+    const mintty = await ImageLoader(7);
+    const minttyGif = await ImageLoader(8, 8, "gif");
+    renderLayerGroupedImage({ srcs: introduction, eachPosition: [
+        { x: -10, y: 10, z: 0 },
+        { x: 30, y: -7, z: 0 },
+        { x: -55, y: -28, z: 0 }
+      ]});
+    renderLayerGroupedImage({ srcs: diveMsg, eachPosition: [{ x: 0, y: 0, z: -35 }]});
+    renderLayerGroupedImage({ srcs: diveMsg2, eachPosition: [{ x: 0, y: 0, z: -50 }], ratioScale: 12 });
+    renderLayerGroupedImage({ srcs: ocean, eachPosition: [{ x: -5, y: 0, z: -52 }], ratioScale: 10 });
+    renderLayerGroupedImage({ srcs: mintty, eachPosition: [{ x: 0, y: 0, z: -130 }] });
+    renderLayerGroupedImage({ srcs: minttyGif, eachPosition: [{ x: -10, y: 0, z: -160 }], ratioScale: 8 });
+  }, [renderLayerGroupedImage]);
   
   const addLight = useCallback((x: number, y: number, z: number) => {
     const color = 0xffffff;
@@ -64,7 +85,7 @@ const ThreeCamera = () => {
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;
     scene.current.add(pngGroup.current);
-    document.body.style.height = `${window.innerHeight + 3 * 300}px`;
+    document.body.style.height = `${window.innerHeight + 30 * 300}px`;
 
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);

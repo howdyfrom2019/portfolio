@@ -15,10 +15,12 @@ const PortfolioMain = () => {
     scrollY.current = currentHeight;
   });
   return(
-    <BasicLayout>
-      {showNoti && <ScrollNoti />}
-      <ThreeCamera />
-    </BasicLayout>
+    <>
+      <BasicLayout>
+        {showNoti && <ScrollNoti />}
+        <ThreeCamera />
+      </BasicLayout>
+    </>
   )
 }
 
