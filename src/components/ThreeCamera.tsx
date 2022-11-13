@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import * as THREE from "three";
 import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
@@ -14,10 +14,11 @@ const ThreeCamera = () => {
   const mouseY = useRef(0);
   const scene = useRef<THREE.Scene>(new THREE.Scene());
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
-  const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: true }));
+  const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: true, alpha: true }));
   const canvasRef = useRef<HTMLDivElement>(null);
   StageResize(() => {
     camera.current.updateProjectionMatrix();
+    renderer.current.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1)
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     camera.current.aspect = window.innerWidth / window.innerHeight;
   });
@@ -26,17 +27,20 @@ const ThreeCamera = () => {
   })
   
   const addLocalImagesToPngGroup = useCallback(async() => {
-    const localImages: string[] = await ImageLoader();
-    localImages.forEach((localImage, i) => {
-      const imageMap = new THREE.TextureLoader().load(localImage,
+    const introduction: string[] = await ImageLoader(1, 3);
+    introduction.forEach((intro, i) => {
+      const imageMap = new THREE.TextureLoader().load(intro,
         (texture) => {
           const cntWidth = Math.floor(texture.image.width / 10);
           const cntHeight = Math.floor(texture.image.height/ 10);
-          const geometry = new THREE.BoxGeometry(i === 3 ? cntWidth * 2 : cntWidth, i === 3 ? cntHeight * 2 : cntHeight, 1);
+          const geometry = new THREE.BoxGeometry(cntWidth, cntHeight, 1);
           const material = new THREE.MeshPhongMaterial({ map: imageMap, transparent: true, color: 0xffffff });
           const boxMesh = new THREE.Mesh(geometry, material);
 
-          boxMesh.position.set(0, 0, -i * 20);
+          // boxMesh.position.set(0, 0, -i * 20);
+          i === 0 && boxMesh.position.set(-10, 10, 0);
+          i === 1 && boxMesh.position.set(30, -7, 0);
+          i === 2 && boxMesh.position.set(-55, -28, 0);
           pngGroup.current.add(boxMesh);
         });
     });
@@ -55,6 +59,7 @@ const ThreeCamera = () => {
     // part1: renderer, camera initial setting.
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     renderer.current.setClearColor(0xffffff);
+    renderer.current.domElement.style.mixBlendMode = "difference";
     canvasRef.current?.appendChild(renderer.current.domElement);
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;

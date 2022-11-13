@@ -17,7 +17,7 @@ const ScrollNoti = () => {
   });
 
   return (
-    <figure className={"absolute top-0 left-1/2 -translate-x-1/2 h-screen flex flex-col gap-7 items-center mix-blend-color"}>
+    <figure className={"absolute top-0 left-1/2 -translate-x-1/2 h-screen flex flex-col gap-7 items-center z-10"}>
       <span className={"bg-black w-px flex-1"} />
       {scrollImage}
       <span className={"bg-black w-px flex-1"} />

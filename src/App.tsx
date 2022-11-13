@@ -5,9 +5,10 @@ import PortfolioMain from "./pages/PortfolioMain";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route index path={"/"} element={<PortfolioMain />} />
+        <Route index path={"/*"} element={<PortfolioMain />} />
       </Routes>
     </BrowserRouter>
   );
