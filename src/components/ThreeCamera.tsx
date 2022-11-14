@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
+import MinttyVid from "../assets/video/mintty.mp4";
 
 interface GroupedImageRenderProps {
   srcs: string[];
@@ -22,6 +23,7 @@ const ThreeCamera = () => {
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
   const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: true, alpha: true }));
   const canvasRef = useRef<HTMLDivElement>(null);
+  const minttyRef = useRef<HTMLVideoElement>(null);
   StageResize(() => {
     camera.current.updateProjectionMatrix();
     renderer.current.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1)
@@ -54,7 +56,6 @@ const ThreeCamera = () => {
     const diveMsg2 = await ImageLoader(5);
     const ocean = await ImageLoader(6);
     const mintty = await ImageLoader(7);
-    const minttyGif = await ImageLoader(8, 8, "gif");
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0 },
         { x: 30, y: -7, z: 0 },
@@ -64,7 +65,15 @@ const ThreeCamera = () => {
     renderLayerGroupedImage({ srcs: diveMsg2, eachPosition: [{ x: 0, y: 0, z: -50 }], ratioScale: 12 });
     renderLayerGroupedImage({ srcs: ocean, eachPosition: [{ x: -5, y: 0, z: -52 }], ratioScale: 10 });
     renderLayerGroupedImage({ srcs: mintty, eachPosition: [{ x: 0, y: 0, z: -130 }] });
-    renderLayerGroupedImage({ srcs: minttyGif, eachPosition: [{ x: -10, y: 0, z: -160 }], ratioScale: 8 });
+    if (minttyRef.current) {
+      const videoTexture = new THREE.VideoTexture(minttyRef.current);
+      const material = new THREE.MeshPhongMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
+      const screen = new THREE.BoxGeometry(57, 24, 1);
+      const videoScreen = new THREE.Mesh(screen, material);
+      material.needsUpdate = true;
+      videoScreen.position.set(0, 0, -150);
+      pngGroup.current.add(videoScreen);
+    }
   }, [renderLayerGroupedImage]);
   
   const addLight = useCallback((x: number, y: number, z: number) => {
@@ -134,6 +143,9 @@ const ThreeCamera = () => {
   return (
     <div>
       <div className={"fixed left-0 top-0 w-screen h-screen z-0"} ref={canvasRef} />
+      <video muted playsInline loop autoPlay width={"1920"} height={"720"} style={{ display: "block", visibility: "hidden", position: "absolute" }} ref={minttyRef}>
+        <source src={MinttyVid} type={"video/mp4"} />
+      </video>
     </div>
   )
 }
