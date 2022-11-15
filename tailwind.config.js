@@ -16,7 +16,24 @@ module.exports = {
       serif: ["Destine", "Helvetica Neue"],
       genshin: ["Genshin", "Roboto"]
     },
-    extend: {},
+    extend: {
+      spacing: {
+        "1vw": "1vw",
+        "2vw": "2vw"
+      },
+      scale: {
+        "200": "2",
+      },
+      animation: {
+        'sound': 'soundScale 0.5s infinite',
+      },
+      keyframes: {
+        soundScale: {
+          '0%': { transform: 'scaleY(2)' },
+          '100%': { transform: 'scaleY(15)' },
+        }
+      }
+    },
   },
   plugins: [],
 }
