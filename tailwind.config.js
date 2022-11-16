@@ -25,15 +25,20 @@ module.exports = {
         "200": "2",
       },
       animation: {
-        'sound': 'soundScale 0.5s infinite',
+        'sound': 'soundScale 1.5s infinite ease',
       },
       keyframes: {
         soundScale: {
-          '0%': { transform: 'scaleY(2)' },
-          '100%': { transform: 'scaleY(15)' },
+          '0% 100%': { transform: 'scaleY(2)' },
+          '50%': { transform: 'scaleY(15)' },
         }
       }
     },
   },
-  plugins: [],
+  variants: {
+    animationDelay: ["responsive", "hover"],
+  },
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }
