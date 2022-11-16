@@ -5,10 +5,22 @@ import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
 import MinttyVid from "../assets/video/mintty.mp4";
 
+type positionProps = {
+  x: number;
+  y: number;
+  z: number;
+}
+
 interface GroupedImageRenderProps {
   srcs: string[];
-  eachPosition: { x: number; y: number; z: number; }[];
+  eachPosition: positionProps[];
   ratioScale?: number;
+}
+
+interface VideoRenderProps {
+  ref: HTMLVideoElement;
+  position: positionProps;
+  scale: { w: number; h: number; };
 }
 
 const ThreeCamera = () => {
@@ -41,13 +53,26 @@ const ThreeCamera = () => {
         const width = Math.floor(tex.image.width / (ratioScale || 10));
         const height = Math.floor(tex.image.height / (ratioScale || 10));
         const geometry = new THREE.BoxGeometry(width, height, 1);
-        const material = new THREE.MeshPhongMaterial({ map: imageMap, transparent: true, color: 0xffffff });
+        const material = new THREE.MeshBasicMaterial({ map: imageMap, transparent: true, color: 0xffffff });
         const boxMesh = new THREE.Mesh(geometry, material);
         const { x, y, z } = eachPosition[i];
         boxMesh.position.set(x, y, z);
         pngGroup.current.add(boxMesh);
       });
     });
+  }, []);
+
+  const renderVideoTexture = useCallback((args: VideoRenderProps) => {
+    const { ref, position, scale } = args;
+    const { x, y, z } = position;
+    const { w, h } = scale;
+    const videoTexture = new THREE.VideoTexture(ref);
+    const material = new THREE.MeshPhongMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
+    const screen = new THREE.BoxGeometry(w, h, 1);
+    const videoScreen = new THREE.Mesh(screen, material);
+    material.needsUpdate = true;
+    videoScreen.position.set(x, y, z);
+    pngGroup.current.add(videoScreen);
   }, []);
   
   const addLocalImagesToPngGroup = useCallback(async() => {
@@ -56,6 +81,15 @@ const ThreeCamera = () => {
     const diveMsg2 = await ImageLoader(5);
     const ocean = await ImageLoader(6);
     const mintty = await ImageLoader(7);
+    const metaMask = await ImageLoader(8);
+    const minttyDesc = await ImageLoader(9, 10);
+    const nftDesc = await ImageLoader(11);
+    const nftPic = await ImageLoader(12);
+    const nftBlog = await ImageLoader(13, 15);
+    const internshipText = await ImageLoader(16);
+    const internshipBg = await ImageLoader(17);
+    const blueHomepage = await ImageLoader(18, 21);
+    const blueChart = await ImageLoader(22, 23);
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0 },
         { x: 30, y: -7, z: 0 },
@@ -66,19 +100,41 @@ const ThreeCamera = () => {
     renderLayerGroupedImage({ srcs: ocean, eachPosition: [{ x: -5, y: 0, z: -52 }], ratioScale: 10 });
     renderLayerGroupedImage({ srcs: mintty, eachPosition: [{ x: 0, y: 0, z: -130 }] });
     if (minttyRef.current) {
-      const videoTexture = new THREE.VideoTexture(minttyRef.current);
-      const material = new THREE.MeshPhongMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
-      const screen = new THREE.BoxGeometry(57, 24, 1);
-      const videoScreen = new THREE.Mesh(screen, material);
-      material.needsUpdate = true;
-      videoScreen.position.set(0, 0, -150);
-      pngGroup.current.add(videoScreen);
+      const position: positionProps = { x: 0, y: 0, z: -150 };
+      const scale = { w: 57, h: 24 };
+      renderVideoTexture({ ref: minttyRef.current, position: position, scale: scale });
     }
-  }, [renderLayerGroupedImage]);
+    renderLayerGroupedImage({ srcs: minttyDesc, eachPosition: [
+        { x: 20, y: 25, z: -200 },
+        { x: -40, y: 0, z: -200 },
+      ]
+    });
+    renderLayerGroupedImage( {srcs: metaMask, eachPosition: [{ x: 20, y: -10, z: -200 }], ratioScale: 40 })
+    renderLayerGroupedImage({ srcs: nftPic, eachPosition: [{ x: 30, y: 0, z: -260 }]});
+    renderLayerGroupedImage({ srcs: nftDesc, eachPosition: [{ x: -40, y: 0, z: -300}]});
+    renderLayerGroupedImage({ srcs: nftBlog, eachPosition: [
+      { x: -40, y: 0, z: -340 },
+      { x: 20, y: 10, z: -340 },
+      { x: 20, y: -25, z: -340 },
+      ]
+    });
+    renderLayerGroupedImage({ srcs: internshipBg, eachPosition: [{ x: 0, y: 0, z: -440 }], ratioScale: 5});
+    renderLayerGroupedImage({ srcs: internshipText, eachPosition: [{ x: 0, y: 0, z: -420}]});
+    renderLayerGroupedImage({ srcs: blueHomepage, eachPosition: [
+        { x: 0, y: 5, z: -470 },
+        { x: 0, y: 8, z: -520 },
+        { x: 0, y: -5, z: -520 },
+        { x: 0, y: -5, z: -580 }
+      ]});
+    renderLayerGroupedImage({ srcs: blueChart, eachPosition: [
+        { x: 8, y: 14, z: -630 },
+        { x: 0, y: 20, z: -620 }
+      ]})
+  }, [renderLayerGroupedImage, renderVideoTexture]);
   
   const addLight = useCallback((x: number, y: number, z: number) => {
     const color = 0xffffff;
-    const intensity = 1;
+    const intensity = 0.55;
     const light = new THREE.PointLight(color, intensity);
     light.castShadow = true;
     light.position.set(x, y, z);
@@ -107,10 +163,10 @@ const ThreeCamera = () => {
     scene.current.fog = new THREE.Fog(color, near, far);
     
     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
-    light.position.set(100, 100, 0);
+    light.position.set(200, 200, 0);
     scene.current.add(light);
 
-    addLocalImagesToPngGroup().then(() => addLight(20, 0, 50));
+    addLocalImagesToPngGroup().then(() => addLight(0, 0, 90));
   }, [addLight, addLocalImagesToPngGroup]);
   
   const animate = useCallback(() => {
