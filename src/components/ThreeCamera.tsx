@@ -54,7 +54,7 @@ const ThreeCamera = () => {
     const diveMsg2 = await ImageLoader(5);
     const ocean = await ImageLoader(6);
     const mintty = await ImageLoader(7);
-    const minttyGif = await ImageLoader(8, 8, "gif");
+    // const minttyGif = await ImageLoader(8, 8, "gif");
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0 },
         { x: 30, y: -7, z: 0 },
@@ -64,7 +64,7 @@ const ThreeCamera = () => {
     renderLayerGroupedImage({ srcs: diveMsg2, eachPosition: [{ x: 0, y: 0, z: -50 }], ratioScale: 12 });
     renderLayerGroupedImage({ srcs: ocean, eachPosition: [{ x: -5, y: 0, z: -52 }], ratioScale: 10 });
     renderLayerGroupedImage({ srcs: mintty, eachPosition: [{ x: 0, y: 0, z: -130 }] });
-    renderLayerGroupedImage({ srcs: minttyGif, eachPosition: [{ x: -10, y: 0, z: -160 }], ratioScale: 8 });
+    // renderLayerGroupedImage({ srcs: minttyGif, eachPosition: [{ x: -10, y: 0, z: -160 }], ratioScale: 8 });
   }, [renderLayerGroupedImage]);
   
   const addLight = useCallback((x: number, y: number, z: number) => {
