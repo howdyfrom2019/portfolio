@@ -9,6 +9,7 @@ type positionProps = {
   x: number;
   y: number;
   z: number;
+  ratioScale?: number;
 }
 
 interface GroupedImageRenderProps {
@@ -51,12 +52,12 @@ const ThreeCamera = () => {
     const { srcs, eachPosition, ratioScale } = args;
     srcs.forEach((src, i) => {
       const imageMap = new THREE.TextureLoader().load(src, (tex) => {
-        const width = Math.floor(tex.image.width / (ratioScale || 10));
-        const height = Math.floor(tex.image.height / (ratioScale || 10));
+        const { x, y, z, ratioScale: _ratioScale } = eachPosition[i];
+        const width = Math.floor(tex.image.width / (_ratioScale || ratioScale || 10));
+        const height = Math.floor(tex.image.height / (_ratioScale || ratioScale || 10));
         const geometry = new THREE.BoxGeometry(width, height, 0);
         const material = new THREE.MeshBasicMaterial({ map: imageMap, transparent: true, color: 0xffffff });
         const boxMesh = new THREE.Mesh(geometry, material);
-        const { x, y, z } = eachPosition[i];
         boxMesh.position.set(x, y, z);
         pngGroup.current.add(boxMesh);
       });
@@ -91,7 +92,9 @@ const ThreeCamera = () => {
     const internshipBg = await ImageLoader(17);
     const blueHomepage = await ImageLoader(18, 21);
     const blueChart = await ImageLoader(22, 23);
-    const msiIntro = await ImageLoader(24, 25);
+    const msiBg = await ImageLoader(25);
+    const msiText = await ImageLoader(24);
+    const msiContents = await ImageLoader(26, 36);
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0 },
         { x: 30, y: -7, z: 2 },
@@ -131,7 +134,25 @@ const ThreeCamera = () => {
     renderLayerGroupedImage({ srcs: blueChart, eachPosition: [
         { x: 16, y: 14, z: -650 },
         { x: 0, y: 20, z: -640 }
-      ]})
+      ]});
+    renderLayerGroupedImage({ srcs: msiBg, eachPosition: [{ x: 0, y: 0, z: -731 }], ratioScale: 6 });
+    renderLayerGroupedImage({ srcs: msiText, eachPosition: [{ x: 0, y: 0, z: -730 }]});
+    renderLayerGroupedImage({ srcs: msiContents, eachPosition:[
+        //twitter & text
+        { x: -20, y: 0, z: -808 },
+        { x: 35, y: 0, z: -800 },
+        // ticket & f12
+        { x: -30, y: 20, z: -850 },
+        { x: -24, y: -12, z: -849 },
+        { x: 44, y: 7, z: -852 },
+        // captcha img
+        { x: -15, y: 12, z: -900 },
+        { x: 24, y: -12, z: -898 },
+        { x: 30, y: 0, z: -980 },
+        { x: -15, y: 0, z: -950 },
+        { x: 0, y: 0, z: -1062, ratioScale: 6 },
+        { x: 0, y: -20, z: -1060 },
+      ]});
   }, [renderLayerGroupedImage, renderVideoTexture]);
   
   const addLight = useCallback((x: number, y: number, z: number) => {
@@ -152,7 +173,7 @@ const ThreeCamera = () => {
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;
     scene.current.add(pngGroup.current);
-    document.body.style.height = `${window.innerHeight + 30 * 300}px`;
+    document.body.style.height = `${window.innerHeight + 60 * 300}px`;
 
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);
@@ -176,7 +197,7 @@ const ThreeCamera = () => {
     moveY.current += (mouseY.current - moveY.current - window.innerHeight / 2) * 0.05;
     moveZ.current += (cntPage.current * 30 - moveZ.current) * 0.07;
     pngGroup.current.position.set(-(moveX.current / 800), moveY.current / 700, moveZ.current / 3);
-    pngGroup.current.rotation.set(moveY.current * Math.PI / (180 * 200), moveX.current* Math.PI / (180 * 600), 0);
+    pngGroup.current.rotation.set(moveY.current * Math.PI / (180 * 1200), moveX.current* Math.PI / (180 * 1200), 0);
 
     camera.current.lookAt(scene.current.position);
     camera.current.updateProjectionMatrix();
