@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
@@ -24,6 +24,7 @@ interface VideoRenderProps {
 }
 
 const ThreeCamera = () => {
+  const [loadProgress, setLoadProgress] = useState(0);
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
   const moveX = useRef(0);
@@ -33,7 +34,7 @@ const ThreeCamera = () => {
   const mouseY = useRef(0);
   const scene = useRef<THREE.Scene>(new THREE.Scene());
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
-  const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: true, alpha: true }));
+  const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
   const canvasRef = useRef<HTMLDivElement>(null);
   const minttyRef = useRef<HTMLVideoElement>(null);
   StageResize(() => {
@@ -52,7 +53,7 @@ const ThreeCamera = () => {
       const imageMap = new THREE.TextureLoader().load(src, (tex) => {
         const width = Math.floor(tex.image.width / (ratioScale || 10));
         const height = Math.floor(tex.image.height / (ratioScale || 10));
-        const geometry = new THREE.BoxGeometry(width, height, 1);
+        const geometry = new THREE.BoxGeometry(width, height, 0);
         const material = new THREE.MeshBasicMaterial({ map: imageMap, transparent: true, color: 0xffffff });
         const boxMesh = new THREE.Mesh(geometry, material);
         const { x, y, z } = eachPosition[i];
@@ -67,8 +68,8 @@ const ThreeCamera = () => {
     const { x, y, z } = position;
     const { w, h } = scale;
     const videoTexture = new THREE.VideoTexture(ref);
-    const material = new THREE.MeshPhongMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
-    const screen = new THREE.BoxGeometry(w, h, 1);
+    const material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
+    const screen = new THREE.BoxGeometry(w, h, 0);
     const videoScreen = new THREE.Mesh(screen, material);
     material.needsUpdate = true;
     videoScreen.position.set(x, y, z);
@@ -90,10 +91,11 @@ const ThreeCamera = () => {
     const internshipBg = await ImageLoader(17);
     const blueHomepage = await ImageLoader(18, 21);
     const blueChart = await ImageLoader(22, 23);
+    const msiIntro = await ImageLoader(24, 25);
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0 },
-        { x: 30, y: -7, z: 0 },
-        { x: -55, y: -28, z: 0 }
+        { x: 30, y: -7, z: 2 },
+        { x: -55, y: -28, z: 4 }
       ]});
     renderLayerGroupedImage({ srcs: diveMsg, eachPosition: [{ x: 0, y: 0, z: -35 }]});
     renderLayerGroupedImage({ srcs: diveMsg2, eachPosition: [{ x: 0, y: 0, z: -50 }], ratioScale: 12 });
@@ -121,14 +123,14 @@ const ThreeCamera = () => {
     renderLayerGroupedImage({ srcs: internshipBg, eachPosition: [{ x: 0, y: 0, z: -440 }], ratioScale: 5});
     renderLayerGroupedImage({ srcs: internshipText, eachPosition: [{ x: 0, y: 0, z: -420}]});
     renderLayerGroupedImage({ srcs: blueHomepage, eachPosition: [
-        { x: 0, y: 5, z: -470 },
-        { x: 0, y: 8, z: -520 },
-        { x: 0, y: -5, z: -520 },
-        { x: 0, y: -5, z: -580 }
+        { x: -5, y: 0, z: -470 },
+        { x: 0, y: 8, z: -581 },
+        { x: 0, y: -5, z: -580 },
+        { x: 5, y: 5, z: -520 }
       ]});
     renderLayerGroupedImage({ srcs: blueChart, eachPosition: [
-        { x: 8, y: 14, z: -630 },
-        { x: 0, y: 20, z: -620 }
+        { x: 16, y: 14, z: -650 },
+        { x: 0, y: 20, z: -640 }
       ]})
   }, [renderLayerGroupedImage, renderVideoTexture]);
   
@@ -174,7 +176,8 @@ const ThreeCamera = () => {
     moveY.current += (mouseY.current - moveY.current - window.innerHeight / 2) * 0.05;
     moveZ.current += (cntPage.current * 30 - moveZ.current) * 0.07;
     pngGroup.current.position.set(-(moveX.current / 800), moveY.current / 700, moveZ.current / 3);
-    
+    pngGroup.current.rotation.set(moveY.current * Math.PI / (180 * 200), moveX.current* Math.PI / (180 * 600), 0);
+
     camera.current.lookAt(scene.current.position);
     camera.current.updateProjectionMatrix();
     renderer.current.render(scene.current, camera.current);
@@ -197,12 +200,12 @@ const ThreeCamera = () => {
   }, [animate, init, setMouseMoveAxis]);
 
   return (
-    <div>
+    <>
       <div className={"fixed left-0 top-0 w-screen h-screen z-0"} ref={canvasRef} />
       <video muted playsInline loop autoPlay width={"1920"} height={"720"} style={{ display: "block", visibility: "hidden", position: "absolute" }} ref={minttyRef}>
         <source src={MinttyVid} type={"video/mp4"} />
       </video>
-    </div>
+    </>
   )
 }
 
