@@ -17,23 +17,40 @@ module.exports = {
       genshin: ["Genshin", "Roboto"]
     },
     extend: {
+      fontSize: {
+        "240": "10vw",
+      },
       spacing: {
+        "0.5": "0.5rem",
         "1vw": "1vw",
-        "2vw": "2vw"
+        "2vw": "2vw",
+        "3vw": "3vw",
+        "4vw": "4vw",
+        "5vw": "5vw",
+        "10vw": "10vw",
+        "20vw": "20vw",
+      },
+      borderRadius: {
+        "upperCircle": "calc(10vw + 1px)",
       },
       scale: {
         "200": "2",
       },
       animation: {
-        'sound': 'soundScale 0.5s infinite',
+        'sound': 'soundScale 1.5s infinite ease',
       },
       keyframes: {
         soundScale: {
-          '0%': { transform: 'scaleY(2)' },
-          '100%': { transform: 'scaleY(15)' },
+          '0% 100%': { transform: 'scaleY(2)' },
+          '50%': { transform: 'scaleY(15)' },
         }
       }
     },
   },
-  plugins: [],
+  variants: {
+    animationDelay: ["responsive", "hover"],
+  },
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }
