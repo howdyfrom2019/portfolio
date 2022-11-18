@@ -1,10 +1,15 @@
 import React, { ReactNode } from "react";
 
-const Button: React.FC<{ className?: string, children?: ReactNode }> = ({ className, children }) => {
+interface ButtonProps {
+  className?: string;
+  children?: ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
+}
+const Button: React.FC<ButtonProps> = ({ className, children, onClick }) => {
   return (
-    <div className={ `${className} font-genshin px-8 pt-4 pb-3.5 rounded-full border-gray border`}>
+    <button className={ `${className} font-genshin px-8 pt-4 pb-3.5 rounded-full border-gray border cursor-pointer`} onClick={onClick}>
       {children}
-    </div>
+    </button>
   )
 }
 

@@ -2,7 +2,8 @@ import BasicLayout from "../layout/BasicLayout";
 import ScrollNoti from "../components/ScrollNoti";
 import scrollListener from "../utils/scrollListener";
 import {useRef, useState} from "react";
-import ThreeCamera from "../components/ThreeCamera";
+import FrontEndPF from "../components/FrontEndPF";
+import {Routes, Route} from "react-router-dom";
 
 const PortfolioMain = () => {
   const scrollY = useRef(0);
@@ -18,7 +19,9 @@ const PortfolioMain = () => {
     <>
       <BasicLayout>
         {showNoti && <ScrollNoti />}
-        <ThreeCamera />
+        <Routes>
+          <Route path={"/front-end"} element={<FrontEndPF />} />
+        </Routes>
       </BasicLayout>
     </>
   )

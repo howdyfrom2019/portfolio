@@ -1,15 +1,22 @@
-import React, {useCallback, useState} from "react";
+import React, {CSSProperties, useCallback, useState} from "react";
 
-const Audio = () => {
-  const [isPlay, setIsPlay] = useState(true);
+interface AudioProps {
+  className?: string;
+  style?: CSSProperties;
+  isInitialPlaying?: boolean;
+  callback?: () => void;
+}
+const Audio: React.FC<AudioProps> = ({ className, style, isInitialPlaying = true, callback }) => {
+  const [isPlay, setIsPlay] = useState(isInitialPlaying);
 
   const toggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    if (!isPlay && callback) callback();
     setIsPlay((prev) => !prev);
-  }, []);
+  }, [callback, isPlay]);
 
   return (
-    <div className={"flex items-center py-1vw px-2vw cursor-pointer transition-opacity"} onClick={toggle}>
+    <div className={`${className} flex items-center py-1vw px-2vw cursor-pointer transition-opacity`} style={style} onClick={toggle}>
       <span className={`h-px w-px mr-1.5 scale-y-200 bg-white ${isPlay && "animate-sound"} animation-delay-600`} />
       <span className={`h-px w-px mr-1.5 scale-y-200 bg-white ${isPlay && "animate-sound"} animation-delay-1100`} />
       <span className={`h-px w-px mr-1.5 scale-y-200 bg-white ${isPlay && "animate-sound"} animation-delay-2000`} />

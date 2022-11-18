@@ -17,9 +17,20 @@ module.exports = {
       genshin: ["Genshin", "Roboto"]
     },
     extend: {
+      fontSize: {
+        "240": "10vw",
+      },
       spacing: {
         "1vw": "1vw",
-        "2vw": "2vw"
+        "2vw": "2vw",
+        "3vw": "3vw",
+        "4vw": "4vw",
+        "5vw": "5vw",
+        "10vw": "10vw",
+        "20vw": "20vw",
+      },
+      borderRadius: {
+        "upperCircle": "calc(10vw + 1px)",
       },
       scale: {
         "200": "2",
