@@ -39,6 +39,10 @@ const Home = () => {
     mouseY.current = e.clientY - window.innerHeight / 2;
   }, [mouseX, mouseY]);
   
+  const enterToPortfolio = useCallback(() => {
+    navigator("/page");
+  }, [navigator]);
+  
   useEffect(() => {
     animate();
     window.addEventListener("mousemove", setMouseMoveAxis, false);
@@ -69,7 +73,7 @@ const Home = () => {
         <span className={"absolute top-0 left-1/2 -translate-x-1/2 text-240 text-white z-20 mt-1vw"}>2022</span>
         <span className={"absolute top-20vw left-1/2 -translate-x-1/2 text-2xl text-white z-20"}>Web Front-End Developer, Russel.dev</span>
         <span className={"absolute bottom-4vw left-1/2 -translate-x-1/2 w-20vw h-10vw rounded-tl-upperCircle rounded-tr-upperCircle border-b-0 border-white border z-20"} ref={circle} />
-        <span className={"absolute bottom-5vw left-1/2 -translate-x-1/2 font-genshin text-4xl text-white z-20 cursor-pointer"} ref={enter} onClick={() => navigator("/page")}>ENTER</span>
+        <span className={"absolute bottom-5vw left-1/2 -translate-x-1/2 font-genshin text-4xl text-white z-20 cursor-pointer"} ref={enter} onClick={enterToPortfolio}>ENTER</span>
       </div>
     </div>
   )

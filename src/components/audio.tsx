@@ -11,9 +11,9 @@ const Audio: React.FC<AudioProps> = ({ className, style, isInitialPlaying = true
 
   const toggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    if (!isPlay && callback) callback();
+    if (callback) callback();
     setIsPlay((prev) => !prev);
-  }, [callback, isPlay]);
+  }, [callback]);
 
   return (
     <div className={`${className} flex items-center py-1vw px-2vw cursor-pointer transition-opacity`} style={style} onClick={toggle}>

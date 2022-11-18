@@ -24,7 +24,6 @@ const Progress: React.FC<ProgressProps> = ({ className, style, progress, startin
   useEffect(() => {
     if (progressRef.current) {
       const start = Math.ceil(((startingOffset) / points) * 100);
-      console.log(start, progress, start + start * progress);
       progressRef.current.style.height = `calc(${start}% + ${progress * (100 / (points - 1))}%)`;
     }
   }, [points, progress, startingOffset]);
