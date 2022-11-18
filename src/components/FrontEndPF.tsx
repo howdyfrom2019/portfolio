@@ -1,9 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import * as THREE from "three";
 import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
 import MinttyVid from "../assets/video/mintty.mp4";
+import {useZProgressDispatch} from "../store/Context";
 
 type positionProps = {
   x: number;
@@ -25,7 +26,7 @@ interface VideoRenderProps {
 }
 
 const FrontEndPF = () => {
-  // const [loadProgress, setLoadProgress] = useState(0);
+  const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
   const moveX = useRef(0);
@@ -38,6 +39,8 @@ const FrontEndPF = () => {
   const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
   const canvasRef = useRef<HTMLDivElement>(null);
   const minttyRef = useRef<HTMLVideoElement>(null);
+  const updateProgress = () => progressDispatch({ type: "onchange", progress: ((window.scrollY + window.innerHeight)/document.body.scrollHeight) });
+
   StageResize(() => {
     camera.current.updateProjectionMatrix();
     renderer.current.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1)
@@ -46,6 +49,7 @@ const FrontEndPF = () => {
   });
   ScrollEvent(() => {
     cntPage.current = Math.ceil(window.scrollY / 100);
+    updateProgress();
   });
 
   const renderLayerGroupedImage = useCallback((args: GroupedImageRenderProps) => {
@@ -173,7 +177,7 @@ const FrontEndPF = () => {
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;
     scene.current.add(pngGroup.current);
-    document.body.style.height = `${window.innerHeight + 60 * 300}px`;
+    document.body.style.height = `${window.innerHeight + 37.5 * 300}px`;
 
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);

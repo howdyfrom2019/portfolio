@@ -15,7 +15,6 @@ interface ProgressProps {
 
 const Progress: React.FC<ProgressProps> = ({ className, style, progress, startingOffset, points }) => {
   const progressRef = useRef<HTMLSpanElement>(null);
-  
   const Dots: React.FC<{ isFilled?: boolean }> = ({ isFilled })=> {
     return (
       <span className={`w-0.5 h-0.5 rounded-full border border-white z-20 ${isFilled ? "bg-white" : "bg-black"}`} />
@@ -24,9 +23,9 @@ const Progress: React.FC<ProgressProps> = ({ className, style, progress, startin
   
   useEffect(() => {
     if (progressRef.current) {
-      const start = Math.ceil(((startingOffset + 1) / points) * 100);
+      const start = Math.ceil(((startingOffset) / points) * 100);
       console.log(start, progress, start + start * progress);
-      progressRef.current.style.height = `calc(${start}% + ${start * progress}%)`;
+      progressRef.current.style.height = `calc(${start}% + ${progress * (100 / (points - 1))}%)`;
     }
   }, [points, progress, startingOffset]);
 
