@@ -1,6 +1,7 @@
 import React, {ReactNode} from "react";
 import Button from "../components/Button";
 import Audio from "../components/audio";
+import Progress from "../components/Progress";
 
 const BasicLayout: React.FC<{ children: ReactNode}> = ({ children}) => {
 
@@ -21,6 +22,7 @@ const BasicLayout: React.FC<{ children: ReactNode}> = ({ children}) => {
           </div>
           <span className={"font-genshin text-sm cursor-pointer text-white"}>Next Project →</span>
         </div>
+        <Progress className={"absolute top-1/2 left-full -translate-y-1/2 w-1vw h-5/6"} progress={0.4} startingOffset={0} points={3} />
       </div>
       {children}
     </div>

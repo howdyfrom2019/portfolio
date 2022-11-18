@@ -20,6 +20,7 @@ const PortfolioMain = () => {
       <BasicLayout>
         {showNoti && <ScrollNoti />}
         <Routes>
+          <Route index element={<FrontEndPF />} />
           <Route path={"/front-end"} element={<FrontEndPF />} />
         </Routes>
       </BasicLayout>
