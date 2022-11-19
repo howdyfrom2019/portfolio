@@ -4,6 +4,7 @@ import Audio from "../components/audio";
 import Background from "../assets/png/intro-bg.jpg";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import {StageResize} from "../utils/stageResize";
 
 const Home = () => {
   const navigator = useNavigate();
@@ -14,6 +15,12 @@ const Home = () => {
   const bgRef = useRef<HTMLImageElement>(null);
   const circle = useRef<HTMLSpanElement>(null);
   const enter = useRef<HTMLSpanElement>(null);
+  StageResize(() => {
+    if (!videoRef.current) return;
+    const [WIDTH, HEIGHT] = [window.innerWidth, window.innerHeight];
+    videoRef.current.style.width = `${WIDTH}px`;
+    videoRef.current.style.height = `${HEIGHT}px`;
+  });
 
   const toggleVideoAudio = useCallback(() => {
     if (videoRef.current) {

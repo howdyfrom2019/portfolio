@@ -31,10 +31,10 @@ const Progress: React.FC<ProgressProps> = ({ className, style, progress, startin
   return (
     <div className={`${className} ${"relative flex flex-col justify-between items-center"}`} style={style}>
       <span className={"absolute top-0 left-1/2 -translate-x-1/2 bg-gray h-full w-px rounded z-10"} />
-      <span className={"absolute top-0 left-1/2 -translate-x-1/2 bg-gray w-px rounded z-10"} ref={progressRef} />
+      <span className={"absolute top-0 left-1/2 -translate-x-1/2 bg-gray w-px-2 rounded z-10"} ref={progressRef} />
       {
         new Array(points).fill(0).map((_, i) => {
-          return (i <= startingOffset) ? <Dots key={i} isFilled /> : <Dots key={i} isFilled={progress === 1} />
+          return (i <= startingOffset) ? <Dots key={i} isFilled /> : <Dots key={i} isFilled={i === startingOffset + 1 && progress === 1} />
         })
       }
     </div>
