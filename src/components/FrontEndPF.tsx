@@ -236,7 +236,10 @@ const FrontEndPF = () => {
         <source src={MinttyVid} type={"video/mp4"} />
       </video>
       <LoadingPortal close={!loading}>
-        renderer do his best work... please wait!
+        <span className={"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl text-center font-genshin"}>
+          Please Wait!<br /><br />
+          renderer do his best work...
+        </span>
       </LoadingPortal>
     </>
   )

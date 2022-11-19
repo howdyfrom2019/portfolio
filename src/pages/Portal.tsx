@@ -17,7 +17,7 @@ export const LoadingPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className} ${close ? "hidden" : "flex"} absolute top-0 left-0 w-screen h-screen bg-white z-999`} style={style}>
+      <div className={`${className} ${close ? "hidden" : "flex"} relative top-0 left-0 w-screen h-screen bg-white z-999`} style={style}>
         {children}
       </div>
     </>,

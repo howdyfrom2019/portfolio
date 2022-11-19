@@ -28,7 +28,6 @@ const PortfolioMain = () => {
   return(
     <>
       <BasicLayout audioCallback={() => {
-        console.log(audioRef.current);
         if (audioRef.current?.paused) audioRef.current?.play();
         else audioRef.current?.pause();
       }}>
