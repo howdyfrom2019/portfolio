@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
 import MinttyVid from "../assets/video/mintty.mp4";
 import {useZProgressDispatch} from "../store/Context";
+import {LoadingPortal} from "../pages/Portal";
 
 type positionProps = {
   x: number;
@@ -26,6 +27,7 @@ interface VideoRenderProps {
 }
 
 const FrontEndPF = () => {
+  const [loading, setLoading] = useState(true);
   const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
@@ -179,6 +181,9 @@ const FrontEndPF = () => {
     scene.current.add(pngGroup.current);
     document.body.style.height = `${window.innerHeight + 37.5 * 300}px`;
 
+    THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
+      if (item === total) setLoading(false);
+    }
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);
     // scene.current.add(axes, gridHelper);
@@ -230,6 +235,9 @@ const FrontEndPF = () => {
       <video muted playsInline loop autoPlay width={"1920"} height={"720"} style={{ display: "block", visibility: "hidden", position: "absolute" }} ref={minttyRef}>
         <source src={MinttyVid} type={"video/mp4"} />
       </video>
+      <LoadingPortal close={!loading}>
+        renderer do his best work... please wait!
+      </LoadingPortal>
     </>
   )
 }

@@ -20,6 +20,10 @@ module.exports = {
       fontSize: {
         "240": "10vw",
       },
+      zIndex: {
+        "999": 999,
+        "1000": 1000,
+      },
       spacing: {
         "0.5": "0.5rem",
         "1vw": "1vw",
