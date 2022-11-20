@@ -1,7 +1,7 @@
 import BasicLayout from "../layout/BasicLayout";
 import ScrollNoti from "../components/ScrollNoti";
 import scrollListener from "../utils/scrollListener";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 import FrontEndPF from "../components/FrontEndPF";
 import {Routes, Route} from "react-router-dom";
 import BGM from "../assets/audio/eyes_on_fires.mp3";
@@ -19,23 +19,24 @@ const PortfolioMain = () => {
     scrollY.current = currentHeight;
   });
 
-  useEffect(() => {
+  const toggleBGM = useCallback((playing?: boolean) => {
     if (!audioRef.current) return;
     audioRef.current.muted = false;
-    audioRef.current.play();
+    if (playing) {
+      audioRef.current.play();
+      return;
+    }
+    if (audioRef.current.paused) audioRef.current.play();
+    else audioRef.current.pause();
   }, []);
 
   return(
     <>
-      <BasicLayout audioCallback={() => {
-        console.log(audioRef.current);
-        if (audioRef.current?.paused) audioRef.current?.play();
-        else audioRef.current?.pause();
-      }}>
+      <BasicLayout audioCallback={toggleBGM}>
         {showNoti && <ScrollNoti />}
         <Routes>
-          <Route index element={<FrontEndPF />} />
-          <Route path={"/front-end"} element={<FrontEndPF />} />
+          <Route index element={<FrontEndPF toggleMusic={toggleBGM} />} />
+          <Route path={"/front-end"} element={<FrontEndPF toggleMusic={toggleBGM} />} />
         </Routes>
       </BasicLayout>
       <audio muted autoPlay playsInline loop ref={audioRef}>

@@ -26,8 +26,12 @@ interface VideoRenderProps {
   scale: { w: number; h: number; };
 }
 
-const FrontEndPF = () => {
-  const [loading, setLoading] = useState(true);
+interface FrontEndPFProps {
+  toggleMusic: (playing?: boolean) => void;
+}
+
+const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
+  const [loading, setLoading] = useState(0);
   const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
@@ -182,7 +186,8 @@ const FrontEndPF = () => {
     document.body.style.height = `${window.innerHeight + 37.5 * 300}px`;
 
     THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
-      if (item === total) setLoading(false);
+      setLoading(Math.ceil(100 * item / total));
+      if (item === total) toggleMusic(true);
     }
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);
@@ -199,7 +204,7 @@ const FrontEndPF = () => {
     scene.current.add(light);
 
     addLocalImagesToPngGroup().then(() => addLight(0, 0, 90));
-  }, [addLight, addLocalImagesToPngGroup]);
+  }, [addLight, addLocalImagesToPngGroup, toggleMusic]);
   
   const animate = useCallback(() => {
     moveX.current += (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;
@@ -235,8 +240,10 @@ const FrontEndPF = () => {
       <video muted playsInline loop autoPlay width={"1920"} height={"720"} style={{ display: "block", visibility: "hidden", position: "absolute" }} ref={minttyRef}>
         <source src={MinttyVid} type={"video/mp4"} />
       </video>
-      <LoadingPortal close={!loading}>
-        renderer do his best work... please wait!
+      <LoadingPortal close={loading === 100}>
+        <span className={"font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"}>
+          {loading}%
+        </span>
       </LoadingPortal>
     </>
   )
