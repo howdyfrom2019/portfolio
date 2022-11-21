@@ -6,15 +6,16 @@ import ScrollEvent from "../utils/scrollListener";
 import MinttyVid from "../assets/video/mintty.mp4";
 import {useZProgressDispatch} from "../store/Context";
 import {LoadingPortal} from "../pages/Portal";
+import {useNavigate} from "react-router-dom";
 
-type positionProps = {
+export type positionProps = {
   x: number;
   y: number;
   z: number;
   ratioScale?: number;
 }
 
-interface GroupedImageRenderProps {
+export interface GroupedImageRenderProps {
   srcs: string[];
   eachPosition: positionProps[];
   ratioScale?: number;
@@ -31,6 +32,7 @@ interface FrontEndPFProps {
 }
 
 const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
+  const navigator = useNavigate();
   const [loading, setLoading] = useState(0);
   const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
@@ -45,7 +47,8 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
   const canvasRef = useRef<HTMLDivElement>(null);
   const minttyRef = useRef<HTMLVideoElement>(null);
-  const updateProgress = () => progressDispatch({ type: "onchange", progress: ((window.scrollY + window.innerHeight)/document.body.scrollHeight) });
+  const updateProgress = (scrollY: number, eod: number) => progressDispatch({ type: "onchange", progress: (scrollY/eod) });
+  const clearProgress = () => progressDispatch({ type: "clear" });
 
   StageResize(() => {
     camera.current.updateProjectionMatrix();
@@ -55,7 +58,13 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   });
   ScrollEvent(() => {
     cntPage.current = Math.ceil(window.scrollY / 100);
-    updateProgress();
+
+    const [currScrollY, endOfDocs] = [window.scrollY + window.innerHeight, document.body.scrollHeight];
+    if (currScrollY === endOfDocs) {
+      navigator("/page/etcs");
+      clearProgress();
+    }
+    else updateProgress(currScrollY, endOfDocs);
   });
 
   const renderLayerGroupedImage = useCallback((args: GroupedImageRenderProps) => {

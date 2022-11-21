@@ -47,7 +47,7 @@ const Home = () => {
   }, [mouseX, mouseY]);
   
   const enterToPortfolio = useCallback(() => {
-    navigator("/page");
+    navigator("/page/front-end");
   }, [navigator]);
   
   useEffect(() => {

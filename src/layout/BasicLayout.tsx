@@ -4,7 +4,12 @@ import Audio from "../components/audio";
 import Progress from "../components/Progress";
 import {useZProgressState} from "../store/Context";
 
-const BasicLayout: React.FC<{ children: ReactNode, audioCallback?: () => void; }> = ({ children, audioCallback }) => {
+interface LayoutProps {
+  children: ReactNode;
+  audioCallback?: () => void;
+}
+
+const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback }) => {
   const state = useZProgressState();
 
   const audioHandler = useCallback(() => {
