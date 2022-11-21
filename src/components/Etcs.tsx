@@ -21,6 +21,7 @@ const Etcs = () => {
   const moveZ = useRef(0);
   const mouseX = useRef(0);
   const mouseY = useRef(0);
+  const scrollY = useRef(0);
   const scene = useRef<THREE.Scene>(new THREE.Scene());
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
   const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
@@ -36,11 +37,11 @@ const Etcs = () => {
   });
   ScrollEvent(() => {
     cntPage.current = Math.ceil(window.scrollY / 100);
-
     const [currScrollY, endOfDocs] = [window.scrollY + window.innerHeight, document.body.scrollHeight];
     if (currScrollY === endOfDocs) clearProgress();
-    // else if (window.scrollY === 0 && ) navigate(-1);
+    else if (window.scrollY === 0 && scrollY.current > window.scrollY) navigate(-1);
     else updateProgress(currScrollY, endOfDocs);
+    scrollY.current = window.scrollY;
   });
 
   const renderLayerGroupedImage = useCallback((args: GroupedImageRenderProps) => {
