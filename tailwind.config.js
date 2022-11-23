@@ -25,6 +25,7 @@ module.exports = {
         "1000": 1000,
       },
       spacing: {
+        "64": "64rem",
         "px-2": "2px",
         "0.5": "0.5rem",
         "1vw": "1vw",
@@ -34,20 +35,32 @@ module.exports = {
         "5vw": "5vw",
         "10vw": "10vw",
         "20vw": "20vw",
+        "2vmax": "2vmax",
+        "10vmax": "10vmax",
+        "20vmax": "20vmax",
+        "full-4": "calc(100% + 4px)",
       },
       borderRadius: {
-        "upperCircle": "calc(10vw + 1px)",
+        "upperCircle": "calc(10vmax + 1px)",
+      },
+      borderWidth: {
+        "1": "1px",
       },
       scale: {
         "200": "2",
       },
       animation: {
         'sound': 'soundScale 1.5s infinite ease',
+        'scroll': "scroll 1.2s infinite ease-in-out",
       },
       keyframes: {
         soundScale: {
           '0% 100%': { transform: 'scaleY(2)' },
           '50%': { transform: 'scaleY(15)' },
+        },
+        scroll: {
+          '0%': { top: '1.5rem' },
+          '100%': { top: '4rem' },
         }
       }
     },
