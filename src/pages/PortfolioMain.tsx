@@ -25,7 +25,7 @@ const PortfolioMain = () => {
     if (!audioRef.current) return;
     audioRef.current.muted = false;
     if (playing) {
-      audioRef.current.play();
+      if (audioRef.current.paused) audioRef.current.play();
       return;
     }
     if (audioRef.current.paused) audioRef.current.play();
@@ -39,7 +39,7 @@ const PortfolioMain = () => {
         <Routes>
           <Route index element={<FrontEndPF toggleMusic={toggleBGM} />} />
           <Route path={"/front-end"} element={<FrontEndPF toggleMusic={toggleBGM} />} />
-          <Route path={"/etcs"} element={<Etcs />} />
+          <Route path={"/etcs"} element={<Etcs toggleMusic={toggleBGM} />} />
         </Routes>
         <MouseFollower />
       </BasicLayout>

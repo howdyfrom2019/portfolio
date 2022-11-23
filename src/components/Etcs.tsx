@@ -10,7 +10,7 @@ import {MeshBasicMaterial} from "three";
 import {ImageLoader} from "../utils/imageloader";
 import {useNavigate} from "react-router-dom";
 
-const Etcs = () => {
+const Etcs: React.FC<{ toggleMusic?: (isPlaying?: boolean) => void }> = ({ toggleMusic }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(100);
   const progressDispatch = useZProgressDispatch();
@@ -84,7 +84,7 @@ const Etcs = () => {
 
     THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
       setLoading(Math.ceil(100 * item / total));
-      // if (item === total) toggleMusic(true);
+      if (item === total) toggleMusic && toggleMusic(true);
     }
 
     const near = 40;

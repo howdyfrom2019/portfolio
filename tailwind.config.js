@@ -10,6 +10,7 @@ module.exports = {
       black: "#000000",
       white: "#ffffff",
       gray: "#A9A7A1",
+      blackTint: "rgba(0, 0, 0, 0.2)",
     },
     fontFamily: {
       sans: ["Linlegrey", "Roboto"],
@@ -23,6 +24,7 @@ module.exports = {
       zIndex: {
         "999": 999,
         "1000": 1000,
+        "1001": 1001,
       },
       spacing: {
         "64": "64rem",
@@ -40,6 +42,16 @@ module.exports = {
         "20vmax": "20vmax",
         "full-4": "calc(100% + 4px)",
       },
+      maxWidth: {
+        "70": "70%",
+      },
+      maxHeight: {
+        "px-712": "712px",
+      },
+      flex: {
+        "5": 5,
+        "8": "8 1 400px",
+      },
       borderRadius: {
         "upperCircle": "calc(10vmax + 1px)",
       },
@@ -49,9 +61,15 @@ module.exports = {
       scale: {
         "200": "2",
       },
+      transitionDuration: {
+        "540": "540ms",
+        "1200": "1200ms"
+      },
       animation: {
         'sound': 'soundScale 1.5s infinite ease',
         'scroll': "scroll 1.2s infinite ease-in-out",
+        'slideIn': "slideIn 0.54s ease",
+        "slideOut": "slideOut 1.2s ease",
       },
       keyframes: {
         soundScale: {
@@ -61,7 +79,15 @@ module.exports = {
         scroll: {
           '0%': { top: '1.5rem' },
           '100%': { top: '4rem' },
-        }
+        },
+        slideIn: {
+          '0%': { transform: "translateX(100%)" },
+          '100%': { transform: "translateX(0)" },
+        },
+        slideOut: {
+          '0%': { transform: "translateX(0)" },
+          '100%': { transform: "translateX(100%)" },
+        },
       }
     },
   },
