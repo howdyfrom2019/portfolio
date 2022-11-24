@@ -3,14 +3,17 @@ import {useZProgressDispatch} from "../store/Context";
 import * as THREE from "three";
 import {StageResize} from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
-import MinttyVid from "../assets/video/mintty.mp4";
 import {LoadingPortal} from "../pages/Portal";
 import {GroupedImageRenderProps} from "./FrontEndPF";
-import {MeshBasicMaterial} from "three";
 import {ImageLoader} from "../utils/imageloader";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
-const Etcs: React.FC<{ toggleMusic?: (isPlaying?: boolean) => void }> = ({ toggleMusic }) => {
+interface EtcsProps {
+  toggleMusic?: (isPlaying?: boolean) => void;
+}
+
+const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(100);
   const progressDispatch = useZProgressDispatch();
@@ -124,7 +127,7 @@ const Etcs: React.FC<{ toggleMusic?: (isPlaying?: boolean) => void }> = ({ toggl
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: location.state.y ? location.state.y : 0 });
     init();
     animate();
 
@@ -132,7 +135,7 @@ const Etcs: React.FC<{ toggleMusic?: (isPlaying?: boolean) => void }> = ({ toggl
     return () => {
       window.removeEventListener("mousemove", setMouseMoveAxis);
     }
-  }, [animate, init, setMouseMoveAxis]);
+  }, [animate, init, location.state.y, setMouseMoveAxis]);
 
   return (
     <>

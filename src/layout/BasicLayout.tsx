@@ -1,10 +1,11 @@
-import React, {ReactNode, useCallback, useImperativeHandle, useState} from "react";
+import React, {ReactNode, useCallback, useState} from "react";
 import Button from "../components/Button";
 import Audio from "../components/audio";
 import Progress from "../components/Progress";
 import {useZProgressState} from "../store/Context";
 import {MenuPortal} from "../pages/Portal";
 import Menu from "../components/Menu";
+import {useNavigate, useParams} from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +13,8 @@ interface LayoutProps {
 }
 
 const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback }) => {
+  const navigator = useNavigate();
+  const params = useParams<{ page: string }>();
   const state = useZProgressState();
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -45,7 +48,15 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback }) => {
       </div>
       {children}
       <MenuPortal close={!openMenu}>
-        <Menu onClose={toggleMenu} close={openMenu} />
+        <Menu
+          onClose={toggleMenu}
+          close={openMenu}
+          scrollCallback={(y, page) => {
+            if (page === params.page) {
+              window.scrollTo({ top: y });
+            }
+            else navigator("/page/etcs", { state: { y: y }});
+          }} />
       </MenuPortal>
     </div>
   )

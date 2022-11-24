@@ -57,6 +57,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     camera.current.aspect = window.innerWidth / window.innerHeight;
   });
   ScrollEvent(() => {
+    // pf2022: 0, mintty: 1400, internship: 4300, lol: 7300
     cntPage.current = Math.ceil(window.scrollY / 100);
 
     const [currScrollY, endOfDocs] = [window.scrollY + window.innerHeight, document.body.scrollHeight];
