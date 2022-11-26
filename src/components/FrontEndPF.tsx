@@ -8,11 +8,16 @@ import {useZProgressDispatch} from "../store/Context";
 import {LoadingPortal} from "../pages/Portal";
 import {useNavigate} from "react-router-dom";
 
+export interface ThreeObjectUserDataProps {
+  url: string;
+}
+
 export type positionProps = {
   x: number;
   y: number;
   z: number;
   ratioScale?: number;
+  userData?: ThreeObjectUserDataProps;
 }
 
 export interface GroupedImageRenderProps {
@@ -45,6 +50,8 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const scene = useRef<THREE.Scene>(new THREE.Scene());
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
   const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
+  const raycaster = useRef<THREE.Raycaster>(new THREE.Raycaster());
+  const pointer = useRef<THREE.Vector2>(new THREE.Vector2());
   const canvasRef = useRef<HTMLDivElement>(null);
   const minttyRef = useRef<HTMLVideoElement>(null);
   const updateProgress = (scrollY: number, eod: number) => progressDispatch({ type: "onchange", progress: (scrollY/eod) });
@@ -72,12 +79,13 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     const { srcs, eachPosition, ratioScale } = args;
     srcs.forEach((src, i) => {
       const imageMap = new THREE.TextureLoader().load(src, (tex) => {
-        const { x, y, z, ratioScale: _ratioScale } = eachPosition[i];
+        const { x, y, z, ratioScale: _ratioScale, userData } = eachPosition[i];
         const width = Math.floor(tex.image.width / (_ratioScale || ratioScale || 10));
         const height = Math.floor(tex.image.height / (_ratioScale || ratioScale || 10));
         const geometry = new THREE.BoxGeometry(width, height, 0);
         const material = new THREE.MeshBasicMaterial({ map: imageMap, transparent: true, color: 0xffffff });
         const boxMesh = new THREE.Mesh(geometry, material);
+        if (userData) boxMesh.userData = userData;
         boxMesh.position.set(x, y, z);
         pngGroup.current.add(boxMesh);
       });
@@ -95,6 +103,21 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     material.needsUpdate = true;
     videoScreen.position.set(x, y, z);
     pngGroup.current.add(videoScreen);
+  }, []);
+
+  const onClickObjectHandler = useCallback((e: MouseEvent) => {
+    pointer.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    raycaster.current.setFromCamera(pointer.current, camera.current);
+
+    const intersects = raycaster.current.intersectObjects(pngGroup.current.children);
+    for (const intersect of intersects) {
+      if (intersect.object.userData?.url) {
+        window.open(intersect.object.userData?.url, "_blank");
+      }
+    }
+
+    if (intersects.length > 0) document.body.style.cursor = "pointer";
+    else document.body.style.cursor = "auto";
   }, []);
   
   const addLocalImagesToPngGroup = useCallback(async() => {
@@ -116,7 +139,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     const msiText = await ImageLoader(24);
     const msiContents = await ImageLoader(26, 36);
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
-        { x: -10, y: 10, z: 0 },
+        { x: -10, y: 10, z: 0, userData: { url: "https://dev-russel.tistory.com" } },
         { x: 30, y: -7, z: 2 },
         { x: -55, y: -28, z: 4 }
       ]});
@@ -239,10 +262,12 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     animate();
     
     window.addEventListener("mousemove", setMouseMoveAxis, false);
+    window.addEventListener("click", onClickObjectHandler, false);
     return () => {
       window.removeEventListener("mousemove", setMouseMoveAxis);
+      window.removeEventListener("click", onClickObjectHandler);
     }
-  }, [animate, init, setMouseMoveAxis]);
+  }, [animate, init, onClickObjectHandler, setMouseMoveAxis]);
 
   return (
     <>
