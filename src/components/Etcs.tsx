@@ -94,7 +94,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
 
     THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
       setLoading(Math.ceil(100 * item / total));
-      if (item === total) toggleMusic && toggleMusic(true);
+      // if (item === total) toggleMusic && toggleMusic(true);
     }
 
     const near = 40;

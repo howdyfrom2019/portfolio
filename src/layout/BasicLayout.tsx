@@ -10,9 +10,10 @@ import {useNavigate, useParams} from "react-router-dom";
 interface LayoutProps {
   children: ReactNode;
   audioCallback?: () => void;
+  audioVal?: boolean;
 }
 
-const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback }) => {
+const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal }) => {
   const navigator = useNavigate();
   const params = useParams<{ page: string }>();
   const state = useZProgressState();
@@ -33,7 +34,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback }) => {
         <div className={"absolute top-0 left-0 w-full flex items-center justify-between"}>
           <span className={"font-genshin text-sm text-white uppercase cursor-pointer"}>Project: Fucking Awesome!</span>
           <div className={"flex gap-1vw"}>
-            <Audio callback={audioHandler} />
+            <Audio callback={audioHandler} isInitialPlaying={audioVal} />
             <Button className={"cursor-pointer text-white"} onClick={toggleMenu}>Menu</Button>
           </div>
         </div>

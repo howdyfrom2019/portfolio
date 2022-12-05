@@ -11,6 +11,7 @@ import MouseFollower from "../components/MouseFollower";
 const PortfolioMain = () => {
   const scrollY = useRef(0);
   const [showNoti, setShowNoti] = useState(true);
+  const [audioToggle, setAudioToggle] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   scrollListener(() => {
@@ -26,15 +27,17 @@ const PortfolioMain = () => {
     audioRef.current.muted = false;
     if (playing) {
       if (audioRef.current.paused) audioRef.current.play();
+      setAudioToggle(true);
       return;
+    } else {
+      audioRef.current.pause();
+      setAudioToggle(false);
     }
-    if (audioRef.current.paused) audioRef.current.play();
-    else audioRef.current.pause();
   }, []);
 
   return(
     <>
-      <BasicLayout audioCallback={toggleBGM}>
+      <BasicLayout audioCallback={toggleBGM} audioVal={audioToggle}>
         {showNoti && <ScrollNoti />}
         <Routes>
           <Route index element={<FrontEndPF toggleMusic={toggleBGM} />} />

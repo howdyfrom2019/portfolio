@@ -220,7 +220,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
 
     THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
       setLoading(Math.ceil(100 * item / total));
-      if (item === total) toggleMusic(true);
+      // if (item === total) toggleMusic(true);
     }
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);

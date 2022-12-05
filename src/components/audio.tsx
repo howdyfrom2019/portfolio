@@ -1,4 +1,4 @@
-import React, {CSSProperties, useCallback, useState} from "react";
+import React, {CSSProperties, useCallback, useLayoutEffect, useState} from "react";
 
 interface AudioProps {
   className?: string;
@@ -6,14 +6,18 @@ interface AudioProps {
   isInitialPlaying?: boolean;
   callback?: () => void;
 }
-const Audio: React.FC<AudioProps> = ({ className, style, isInitialPlaying = true, callback }) => {
-  const [isPlay, setIsPlay] = useState(isInitialPlaying);
+const Audio: React.FC<AudioProps> = ({ className, style, isInitialPlaying = false, callback }) => {
+  const [isPlay, setIsPlay] = useState(false);
 
   const toggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     if (callback) callback();
     setIsPlay((prev) => !prev);
   }, [callback]);
+
+  useLayoutEffect(() => {
+    setIsPlay(isInitialPlaying);
+  }, [isInitialPlaying]);
 
   return (
     <div className={`${className} flex items-center py-1vw px-2vw cursor-pointer transition-opacity`} style={style} onClick={toggle}>
