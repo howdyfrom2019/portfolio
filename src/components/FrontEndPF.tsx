@@ -115,9 +115,6 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         window.open(intersect.object.userData?.url, "_blank");
       }
     }
-
-    if (intersects.length > 0) document.body.style.cursor = "pointer";
-    else document.body.style.cursor = "auto";
   }, []);
   
   const addLocalImagesToPngGroup = useCallback(async() => {
@@ -237,7 +234,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     scene.current.add(light);
 
     addLocalImagesToPngGroup().then(() => addLight(0, 0, 90));
-  }, [addLight, addLocalImagesToPngGroup, toggleMusic]);
+  }, [addLight, addLocalImagesToPngGroup]);
   
   const animate = useCallback(() => {
     moveX.current += (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;
@@ -255,6 +252,13 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const setMouseMoveAxis = useCallback((e: MouseEvent) => {
     mouseX.current = e.clientX;
     mouseY.current = e.clientY;
+
+    pointer.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    raycaster.current.setFromCamera(pointer.current, camera.current);
+
+    const intersects = raycaster.current.intersectObjects(pngGroup.current.children);
+    if (intersects.length > 0 && intersects.reduce((acc, val) => acc || val.object.userData?.url, false)) document.body.style.cursor = "pointer";
+    else document.body.style.cursor = "auto";
   }, []);
 
   useEffect(() => {
