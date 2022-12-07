@@ -8,10 +8,23 @@ interface Props<T> {
   readonly?: boolean
   value: T;
   border?: boolean;
+  type?: string;
+  name?: string;
   fixHeight?: string;
 }
 
-export const Input: React.FC<Props<unknown>> = ({ className, legend, readonly, border, onChange, placeholder, value}) => {
+export const Input: React.FC<Props<unknown>> = (
+  {
+    className,
+    legend,
+    readonly,
+    border,
+    onChange,
+    placeholder,
+    type,
+    name,
+    value
+  }) => {
   const onChangeListener = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
     onChange && onChange(e);
@@ -20,12 +33,31 @@ export const Input: React.FC<Props<unknown>> = ({ className, legend, readonly, b
   return (
     <div className={`${className && className} flex flex-col font-notoRegular`}>
       {legend && <legend className={"font-genshin"}>{legend}</legend>}
-      <input className={`mt-2 pt-4 pd-4 p-5 placeholder-blackTint rounded-md ${border && "border-emailBg border-1" } ${border ? "focus:outline-focus" : "focus:outline-none"}`} readOnly={readonly} onChange={onChangeListener} value={String(value)} placeholder={placeholder} />
+      <input
+        className={`mt-2 pt-4 pd-4 p-5 placeholder-blackTint rounded-md ${border && "border-emailBg border-1" } ${border ? "focus:outline-focus" : "focus:outline-none"}`}
+        readOnly={readonly}
+        onChange={onChangeListener}
+        value={String(value)}
+        placeholder={placeholder}
+        type={type}
+        name={name} />
     </div>
   )
 }
 
-export const TextArea: React.FC<Props<unknown>> = ({ className, legend, readonly, border, onChange, placeholder, value, fixHeight }) => {
+export const TextArea: React.FC<Props<unknown>> = (
+  {
+    className,
+    legend,
+    readonly,
+    border,
+    onChange,
+    placeholder,
+    value,
+    name,
+    type,
+    fixHeight
+  }) => {
   const onChangeListener = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
     onChange && onChange(e);
@@ -34,7 +66,13 @@ export const TextArea: React.FC<Props<unknown>> = ({ className, legend, readonly
   return (
     <div className={`${className && className} flex flex-col font-notoRegular`}>
       {legend && <legend className={"font-genshin"}>{legend}</legend>}
-      <textarea className={`mt-2 pt-4 pd-4 p-5 ${fixHeight ? `h-full` : "h-40vh" } placeholder-blackTint resize-none rounded-md ${border && "border-emailBg border-1" } ${border ? "focus:outline-focus" : "focus:outline-none"}`} readOnly={readonly} onChange={onChangeListener} value={String(value)} placeholder={placeholder} />
+      <textarea
+        className={`mt-2 pt-4 pd-4 p-5 ${fixHeight ? `h-full` : "h-40vh" } placeholder-blackTint resize-none rounded-md ${border && "border-emailBg border-1" } ${border ? "focus:outline-focus" : "focus:outline-none"}`}
+        readOnly={readonly}
+        onChange={onChangeListener}
+        value={String(value)}
+        placeholder={placeholder}
+        name={name} />
     </div>
   )
 }

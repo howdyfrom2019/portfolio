@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import {EmailPortal, PortalProps} from "./Portal";
 import {Input, TextArea} from "../components/Input";
 import Blob from "../components/Blob";
@@ -7,16 +7,34 @@ import Button from "../components/Button";
 const Email: React.FC<PortalProps> = ({ className, style, close, onClose }) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (title.trim().length === 0 || desc.trim().length === 0) return;
+    if (!formRef.current) return;
+    const data = await (await fetch("https://script.google.com/macros/s/AKfycbxW03GXqbH6-eUCY9l84EAtAZaFQUt7t8Gqo2GRuyhTHwk55DAyBV-GCwpMwp8atywmZg/exec", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      body: new FormData(formRef.current)
+    })).json();
+    console.log(data);
+  }, [desc, title]);
+
+  // TODO: email input 넣기
   return (
     <EmailPortal close={close}>
       <div className={"z-1000 flex justify-between h-80vh w-full m-[auto] max-w-contents items-center"}>
-        <div className={"max-w-[555px] w-[38.54vw] h-full bg-white flex flex-col mt-2vw md-2vmax pt-8 p-7"}>
+        <form className={"max-w-[555px] w-[38.54vw] h-full bg-white flex flex-col mt-2vw md-2vmax pt-8 p-7"} ref={formRef} name={"email-sheet"}>
           <span className={"font-genshin"}>E-mail 보내기</span>
           <span className={"w-full h-px rounded-full bg-emailBg mt-4"} />
           <Input
             className={"mt-8"}
             legend={"제목"}
             placeholder={"제목을 입력하세요.(필수)"}
+            name={"title"}
             value={title}
             border
             onChange={(e) => setTitle(e.target.value)} />
@@ -25,10 +43,11 @@ const Email: React.FC<PortalProps> = ({ className, style, close, onClose }) => {
             legend={"내용"}
             placeholder={"본문을 입력하세요."}
             value={desc}
+            name={"message"}
             border
             onChange={(e) => setDesc(e.target.value)} />
-          <Button className={"w-1/4 self-end mt-8"}>전송하기</Button>
-        </div>
+          <Button type={"submit"} className={"w-1/4 self-end mt-8"} onClick={handleSubmit}>전송하기</Button>
+        </form>
         <article className={"max-w-[555px] w-[38.54vw] h-full bg-white flex flex-col mt-2vw md-2vmax pt-8 p-7"}>
           <section className={"flex flex-col font-notoRegular"}>
             <Input
