@@ -1,7 +1,7 @@
 import React, {CSSProperties, useEffect} from "react";
 import { createPortal } from "react-dom";
 
-interface PortalProps {
+export interface PortalProps {
   className?: string;
   style?: CSSProperties;
   close: boolean;

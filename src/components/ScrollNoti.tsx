@@ -14,16 +14,6 @@ const MouseAnimation = () => {
 }
 
 const ScrollNoti = () => {
-  // const [scrollImage, setScrollImage] = useState<ReactNode>(<ScrollIcon />);
-  StageResize(() => {
-    // if (checkEnv() === "mobile") {
-    //   setScrollImage(<ScrollMobileIcon/>);
-    // } else {
-    //   if (window.innerWidth <= standards.mobile) setScrollImage(<ScrollMobileIcon />);
-    //   else setScrollImage(<ScrollIcon />);
-    // }
-  });
-
   return (
     <figure className={"absolute top-0 left-1/2 -translate-x-1/2 h-screen flex flex-col gap-9 items-center z-10"}>
       <span className={"bg-black w-px flex-1"} />

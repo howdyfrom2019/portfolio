@@ -6,6 +6,7 @@ import {useZProgressState} from "../store/Context";
 import {MenuPortal} from "../pages/Portal";
 import Menu from "../components/Menu";
 import {useNavigate, useParams} from "react-router-dom";
+import Email from "../pages/Email";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
   const params = useParams<{ page: string }>();
   const state = useZProgressState();
   const [openMenu, setOpenMenu] = useState(false);
+  const [openEmail, setOpenEmail] = useState(false);
 
   const audioHandler = useCallback(() => {
     audioCallback && audioCallback();
@@ -26,6 +28,11 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
   const toggleMenu = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault();
     setOpenMenu((prev) => !prev);
+  }, []);
+
+  const toggleEmail = useCallback((e?: React.MouseEvent) => {
+    e?.preventDefault();
+    setOpenEmail((prev) => !prev);
   }, []);
 
   return (
@@ -39,7 +46,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
           </div>
         </div>
         <div className={"absolute bottom-0 left-0 w-full flex items-end justify-between"}>
-          <div className={"flex flex-col"}>
+          <div className={"flex flex-col cursor-pointer"} onClick={toggleEmail}>
             <span className={"font-serif text-5xl text-white"}>Russel.dev</span>
             <span className={"font-serif text-base tracking-wide text-white"}>i_am_in_the_joo@naver.com</span>
           </div>
@@ -59,6 +66,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
             else navigator("/page/etcs", { state: { y: y }});
           }} />
       </MenuPortal>
+      <Email close={!openEmail} />
     </div>
   )
 }

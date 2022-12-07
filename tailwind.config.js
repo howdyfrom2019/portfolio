@@ -27,6 +27,9 @@ module.exports = {
         "1000": 1000,
         "1001": 1001,
       },
+      margin: {
+        "auto": "0 auto",
+      },
       spacing: {
         "64": "64rem",
         "px-2": "2px",
@@ -45,6 +48,7 @@ module.exports = {
       },
       maxWidth: {
         "70": "70%",
+        "contents": "1294px",
       },
       maxHeight: {
         "px-712": "712px",
