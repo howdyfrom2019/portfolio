@@ -18,8 +18,8 @@ module.exports = {
       sans: ["Linlegrey", "Roboto"],
       serif: ["Destine", "Helvetica Neue"],
       genshin: ["Genshin", "Roboto"],
-      regular: ["Noto Sans KR Regular", "Roboto"],
-      bold: ["Noto Sans KR Medium", "Roboto"],
+      notoRegular: ["Noto Sans KR Regular", "Roboto"],
+      notoMedium: ["Noto Sans KR Medium", "Roboto"],
     },
     extend: {
       fontSize: {
@@ -44,6 +44,8 @@ module.exports = {
         "5vw": "5vw",
         "10vw": "10vw",
         "20vw": "20vw",
+        "40vh": "40vh",
+        "80vh": "80vh",
         "2vmax": "2vmax",
         "10vmax": "10vmax",
         "20vmax": "20vmax",
