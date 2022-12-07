@@ -142,7 +142,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
     return () => {
       window.removeEventListener("mousemove", setMouseMoveAxis);
     }
-  }, [animate, init, location.state.y, setMouseMoveAxis]);
+  }, [animate, init, location, setMouseMoveAxis]);
 
   return (
     <>

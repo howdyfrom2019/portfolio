@@ -94,12 +94,13 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
 
   const renderVideoTexture = useCallback((args: VideoRenderProps) => {
     const { ref, position, scale } = args;
-    const { x, y, z } = position;
+    const { x, y, z, userData } = position;
     const { w, h } = scale;
     const videoTexture = new THREE.VideoTexture(ref);
     const material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
     const screen = new THREE.BoxGeometry(w, h, 0);
     const videoScreen = new THREE.Mesh(screen, material);
+    if (userData) videoScreen.userData = userData;
     material.needsUpdate = true;
     videoScreen.position.set(x, y, z);
     pngGroup.current.add(videoScreen);
@@ -145,7 +146,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     renderLayerGroupedImage({ srcs: ocean, eachPosition: [{ x: -5, y: 0, z: -52 }], ratioScale: 10 });
     renderLayerGroupedImage({ srcs: mintty, eachPosition: [{ x: 0, y: 0, z: -130 }] });
     if (minttyRef.current) {
-      const position: positionProps = { x: 0, y: 0, z: -150 };
+      const position: positionProps = { x: 0, y: 0, z: -150, userData: { url: "https://howdyfrom2019.github.io/mintty" } };
       const scale = { w: 57, h: 24 };
       renderVideoTexture({ ref: minttyRef.current, position: position, scale: scale });
     }
@@ -158,24 +159,24 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     renderLayerGroupedImage({ srcs: nftPic, eachPosition: [{ x: 30, y: 0, z: -260 }]});
     renderLayerGroupedImage({ srcs: nftDesc, eachPosition: [{ x: -40, y: 0, z: -300}]});
     renderLayerGroupedImage({ srcs: nftBlog, eachPosition: [
-      { x: -40, y: 0, z: -340 },
-      { x: 20, y: 10, z: -340 },
-      { x: 20, y: -25, z: -340 },
+      { x: -40, y: 0, z: -340, userData: { url: "https://dev-russel.tistory.com/search/nft" } },
+      { x: 20, y: 10, z: -340, userData: { url: "https://dev-russel.tistory.com/search/nft" } },
+      { x: 20, y: -25, z: -340, userData: { url: "https://dev-russel.tistory.com/search/nft" } },
       ]
     });
     renderLayerGroupedImage({ srcs: internshipBg, eachPosition: [{ x: 0, y: 0, z: -440 }], ratioScale: 5});
     renderLayerGroupedImage({ srcs: internshipText, eachPosition: [{ x: 0, y: 0, z: -420}]});
     renderLayerGroupedImage({ srcs: blueHomepage, eachPosition: [
         { x: -5, y: 0, z: -470 },
-        { x: 0, y: 8, z: -581 },
-        { x: 0, y: -5, z: -580 },
+        { x: 0, y: 8, z: -581, userData: { url: "https://www.bluepoint.ac" } },
+        { x: 0, y: -5, z: -580, userData: { url: "https://www.bluepoint.ac" } },
         { x: 5, y: 5, z: -520 }
       ]});
     renderLayerGroupedImage({ srcs: blueChart, eachPosition: [
         { x: 16, y: 14, z: -650 },
         { x: 0, y: 20, z: -640 }
       ]});
-    renderLayerGroupedImage({ srcs: msiBg, eachPosition: [{ x: 0, y: 0, z: -731 }], ratioScale: 6 });
+    renderLayerGroupedImage({ srcs: msiBg, eachPosition: [{ x: 0, y: 0, z: -731, userData: { url: "https://github.com/howdyfrom2019/MsiMacro" } }], ratioScale: 6 });
     renderLayerGroupedImage({ srcs: msiText, eachPosition: [{ x: 0, y: 0, z: -730 }]});
     renderLayerGroupedImage({ srcs: msiContents, eachPosition:[
         //twitter & text

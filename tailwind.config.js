@@ -11,6 +11,7 @@ module.exports = {
       white: "#ffffff",
       gray: "#A9A7A1",
       blackTint: "rgba(0, 0, 0, 0.2)",
+      emailBg: "#F5F6FB",
     },
     fontFamily: {
       sans: ["Linlegrey", "Roboto"],
