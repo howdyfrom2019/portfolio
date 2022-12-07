@@ -113,7 +113,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
       light.position.set(0, 0, 90);
       scene.current.add(light);
     })
-  }, []);
+  }, [addLocalImagesToPngGroup]);
 
   const animate = useCallback(() => {
     moveX.current += (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;

@@ -12,11 +12,14 @@ module.exports = {
       gray: "#A9A7A1",
       blackTint: "rgba(0, 0, 0, 0.2)",
       emailBg: "#F5F6FB",
+      focus: "#657Ef8",
     },
     fontFamily: {
       sans: ["Linlegrey", "Roboto"],
       serif: ["Destine", "Helvetica Neue"],
-      genshin: ["Genshin", "Roboto"]
+      genshin: ["Genshin", "Roboto"],
+      regular: ["Noto Sans KR Regular", "Roboto"],
+      bold: ["Noto Sans KR Medium", "Roboto"],
     },
     extend: {
       fontSize: {
