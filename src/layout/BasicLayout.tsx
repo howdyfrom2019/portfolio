@@ -1,4 +1,4 @@
-import React, {ReactNode, useCallback, useState} from "react";
+import React, {ReactNode, useCallback, useLayoutEffect, useState} from "react";
 import Button from "../components/Button";
 import Audio from "../components/audio";
 import Progress from "../components/Progress";
@@ -27,20 +27,23 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
   }, [audioCallback]);
   
   const checkModalOpened = useCallback(() => {
-    modalDispatch({ type: "change", isOpened: openMenu && openEmail });
+    console.log(openMenu, openEmail);
+    modalDispatch({ type: "change", isOpened: openMenu || openEmail });
   }, [modalDispatch, openEmail, openMenu]);
 
   const toggleMenu = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault();
     setOpenMenu((prev) => !prev);
-    checkModalOpened();
-  }, [checkModalOpened]);
+  }, []);
 
   const toggleEmail = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault();
     setOpenEmail((prev) => !prev);
+  }, []);
+
+  useLayoutEffect(() => {
     checkModalOpened();
-  }, [checkModalOpened]);
+  }, [openMenu, openEmail]);
 
   return (
     <div className={"fixed top-0 w-screen h-screen flex flex-col p-11"}>

@@ -39,7 +39,7 @@ interface FrontEndPFProps {
 const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const navigator = useNavigate();
   const [loading, setLoading] = useState(0);
-  const isModalOpened = useCheckModalOpened();
+  const { isModalOpened } = useCheckModalOpened();
   const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
@@ -116,9 +116,10 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     for (const intersect of intersects) {
       if (intersect.object.userData?.url) {
         window.open(intersect.object.userData?.url, "_blank");
+        break;
       }
     }
-  }, []);
+  }, [isModalOpened]);
   
   const addLocalImagesToPngGroup = useCallback(async() => {
     const introduction: string[] = await ImageLoader(1, 3);
@@ -231,6 +232,8 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     const far = 100;
     const color = "#ffffff";
     scene.current.fog = new THREE.Fog(color, near, far);
+    raycaster.current.near = near;
+    raycaster.current.far = far;
     
     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
     light.position.set(200, 200, 0);
