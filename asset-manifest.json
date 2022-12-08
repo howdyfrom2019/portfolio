@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/portfolio2022/static/css/main.2ad24795.css",
-    "main.js": "/portfolio2022/static/js/main.17a27e44.js",
+    "main.css": "/portfolio2022/static/css/main.b13481d5.css",
+    "main.js": "/portfolio2022/static/js/main.d31ac248.js",
     "static/js/359.7fe0dc76.chunk.js": "/portfolio2022/static/js/359.7fe0dc76.chunk.js",
     "static/js/11.e5be9c71.chunk.js": "/portfolio2022/static/js/11.e5be9c71.chunk.js",
     "static/js/527.0345cf46.chunk.js": "/portfolio2022/static/js/527.0345cf46.chunk.js",
@@ -55,15 +55,21 @@
     "static/media/portfolio37.png": "/portfolio2022/static/media/portfolio37.d586ce06e8a9248be303.png",
     "static/media/portfolio44.png": "/portfolio2022/static/media/portfolio44.1dc14d2e1aea87ff496d.png",
     "static/media/portfolio1.png": "/portfolio2022/static/media/portfolio1.6908d8262bb35b45a616.png",
+    "static/media/NotoSansKR-Regular.otf": "/portfolio2022/static/media/NotoSansKR-Regular.bf54b090356010039bab.otf",
+    "static/media/NotoSansKR-Medium.otf": "/portfolio2022/static/media/NotoSansKR-Medium.7def03a7e5e60c5e0704.otf",
     "static/media/portfolio2.png": "/portfolio2022/static/media/portfolio2.5373d854c0142dee73e0.png",
     "static/media/portfolio12.png": "/portfolio2022/static/media/portfolio12.a58d2a16b58d1329d780.png",
     "static/media/portfolio42.png": "/portfolio2022/static/media/portfolio42.8ef1fef9c28d66423677.png",
     "static/media/portfolio38.png": "/portfolio2022/static/media/portfolio38.a57ada18331afc908095.png",
+    "static/media/NotoSansKR-Regular.woff": "/portfolio2022/static/media/NotoSansKR-Regular.957d49ad23632e4a9349.woff",
+    "static/media/NotoSansKR-Medium.woff": "/portfolio2022/static/media/NotoSansKR-Medium.865a70c3c4af55e98eb5.woff",
     "static/media/portfolio22.png": "/portfolio2022/static/media/portfolio22.4dddbeec53636a02ec12.png",
     "static/media/portfolio10.png": "/portfolio2022/static/media/portfolio10.0dd7eeba26274dddbda6.png",
     "static/media/portfolio3.png": "/portfolio2022/static/media/portfolio3.eee5eacdb19f488db0ef.png",
     "static/media/portfolio33.png": "/portfolio2022/static/media/portfolio33.839660e27b2a15f37587.png",
     "static/media/intro-bg.jpg": "/portfolio2022/static/media/intro-bg.a7c16c3d7c709609243c.jpg",
+    "static/media/NotoSansKR-Regular.woff2": "/portfolio2022/static/media/NotoSansKR-Regular.e95adf0e9aeddac43f42.woff2",
+    "static/media/NotoSansKR-Medium.woff2": "/portfolio2022/static/media/NotoSansKR-Medium.e5d0c16f11ebac0c56d2.woff2",
     "static/media/portfolio30.png": "/portfolio2022/static/media/portfolio30.c868292dee796f78683b.png",
     "static/media/portfolio13.png": "/portfolio2022/static/media/portfolio13.fbcab856d2d3d195e752.png",
     "static/media/portfolio8.png": "/portfolio2022/static/media/portfolio8.64800ecb7ced19cf1865.png",
@@ -93,12 +99,12 @@
     "static/media/portfolio23.png": "/portfolio2022/static/media/portfolio23.44501d605f302fd4e7fb.png",
     "static/media/portfolio20.png": "/portfolio2022/static/media/portfolio20.35bec71a3412478af05c.png",
     "index.html": "/portfolio2022/index.html",
-    "main.2ad24795.css.map": "/portfolio2022/static/css/main.2ad24795.css.map",
-    "main.17a27e44.js.map": "/portfolio2022/static/js/main.17a27e44.js.map",
+    "main.b13481d5.css.map": "/portfolio2022/static/css/main.b13481d5.css.map",
+    "main.d31ac248.js.map": "/portfolio2022/static/js/main.d31ac248.js.map",
     "787.2df8de29.chunk.js.map": "/portfolio2022/static/js/787.2df8de29.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2ad24795.css",
-    "static/js/main.17a27e44.js"
+    "static/css/main.b13481d5.css",
+    "static/js/main.d31ac248.js"
   ]
 }
