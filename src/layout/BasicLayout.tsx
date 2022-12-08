@@ -2,7 +2,7 @@ import React, {ReactNode, useCallback, useState} from "react";
 import Button from "../components/Button";
 import Audio from "../components/audio";
 import Progress from "../components/Progress";
-import {useZProgressState} from "../store/Context";
+import {useCheckModalOpenedDispatch, useZProgressState} from "../store/Context";
 import {MenuPortal} from "../pages/Portal";
 import Menu from "../components/Menu";
 import {useNavigate, useParams} from "react-router-dom";
@@ -18,22 +18,29 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
   const navigator = useNavigate();
   const params = useParams<{ page: string }>();
   const state = useZProgressState();
+  const modalDispatch = useCheckModalOpenedDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const [openEmail, setOpenEmail] = useState(false);
 
   const audioHandler = useCallback(() => {
     audioCallback && audioCallback();
   }, [audioCallback]);
+  
+  const checkModalOpened = useCallback(() => {
+    modalDispatch({ type: "change", isOpened: openMenu && openEmail });
+  }, [modalDispatch, openEmail, openMenu]);
 
   const toggleMenu = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault();
     setOpenMenu((prev) => !prev);
-  }, []);
+    checkModalOpened();
+  }, [checkModalOpened]);
 
   const toggleEmail = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault();
     setOpenEmail((prev) => !prev);
-  }, []);
+    checkModalOpened();
+  }, [checkModalOpened]);
 
   return (
     <div className={"fixed top-0 w-screen h-screen flex flex-col p-11"}>

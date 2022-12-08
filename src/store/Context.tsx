@@ -54,3 +54,51 @@ export const useZProgressDispatch = () => {
   if (!dispatch) throw new Error("Can't find Dispatch");
   return dispatch;
 }
+
+interface ModalProps {
+  isModalOpened?: boolean;
+}
+
+type ModalAction = { type: "change", isOpened: boolean };
+type ModalDisPatch = Dispatch<ModalAction>;
+
+const ModalContext = createContext<ModalProps | null>(null);
+const ModalDispatchContext = createContext<ModalDisPatch | null>(null);
+
+const modalReducer = (state: ModalProps, action: ModalAction): ModalProps => {
+  switch (action.type) {
+    case "change":
+      return {
+        ...state,
+        isModalOpened: action.isOpened
+      };
+    default:
+      throw new Error("Unhandled Action!");
+  }
+}
+
+export function ModalStateProvider({ children } : { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(modalReducer, { isModalOpened: false });
+
+  return (
+    <ModalContext.Provider value={state}>
+      <ModalDispatchContext.Provider value={dispatch}>
+        {children}
+      </ModalDispatchContext.Provider>
+    </ModalContext.Provider>
+  )
+}
+
+export const useCheckModalOpened = () => {
+  const state = useContext(ModalContext);
+  if (!state) throw new Error("Can't find state");
+
+  return state;
+}
+
+export const useCheckModalOpenedDispatch = () => {
+  const dispatch = useContext(ModalDispatchContext);
+  if (!dispatch) throw new Error("Can't find dispatch");
+
+  return dispatch;
+}

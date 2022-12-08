@@ -35,7 +35,7 @@ export const MenuPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-blackTint z-999 transition-all delay-200`} style={style}>
+      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-blackTint z-999 transition-all delay-200 cursor-default`} style={style}>
         {children}
       </div>
     </>,
@@ -52,7 +52,7 @@ export const EmailPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-emailBg z-999 transition-all delay-200`} style={style}>
+      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-emailBg z-999 transition-all delay-200 cursor-default`} style={style}>
         {children}
       </div>
     </>,

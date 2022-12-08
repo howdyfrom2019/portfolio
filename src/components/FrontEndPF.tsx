@@ -4,7 +4,7 @@ import { ImageLoader } from "../utils/imageloader";
 import { StageResize } from "../utils/stageResize";
 import ScrollEvent from "../utils/scrollListener";
 import MinttyVid from "../assets/video/mintty.mp4";
-import {useZProgressDispatch} from "../store/Context";
+import {useCheckModalOpened, useZProgressDispatch} from "../store/Context";
 import {LoadingPortal} from "../pages/Portal";
 import {useNavigate} from "react-router-dom";
 
@@ -39,6 +39,7 @@ interface FrontEndPFProps {
 const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const navigator = useNavigate();
   const [loading, setLoading] = useState(0);
+  const isModalOpened = useCheckModalOpened();
   const progressDispatch = useZProgressDispatch();
   const pngGroup = useRef<THREE.Object3D>(new THREE.Object3D());
   const cntPage = useRef(0);
@@ -110,6 +111,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     pointer.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
     raycaster.current.setFromCamera(pointer.current, camera.current);
 
+    if (isModalOpened) return;
     const intersects = raycaster.current.intersectObjects(pngGroup.current.children);
     for (const intersect of intersects) {
       if (intersect.object.userData?.url) {
