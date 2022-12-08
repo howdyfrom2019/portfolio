@@ -27,6 +27,12 @@ const Email: React.FC<PortalProps> = ({ className, style, close, onClose }) => {
   // TODO: email input 넣기
   return (
     <EmailPortal close={close} className={"overflow-y-scroll"}>
+      <span
+        className={"absolute top-0 right-0 p-11 pt-8 text-2xl cursor-pointer z-1001"}
+        onClick={(e) => {
+          e.preventDefault();
+          onClose && onClose();
+        }}>CLOSE</span>
       <div className={"z-1000 flex justify-between min-h-80vh h-fit w-full m-[auto] max-w-contents p-11"}>
         <form className={"max-w-[555px] w-[38.54vw] h-full bg-white flex flex-col mt-2vw md-2vmax pt-8 p-7"} ref={formRef} name={"email-sheet"}>
           <span className={"font-genshin"}>Email 보내기</span>

@@ -73,7 +73,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
             else navigator("/page/etcs", { state: { y: y }});
           }} />
       </MenuPortal>
-      <Email close={!openEmail} />
+      <Email close={!openEmail} onClose={toggleEmail} />
     </div>
   )
 }
