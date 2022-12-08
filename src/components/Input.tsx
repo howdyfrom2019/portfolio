@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 
 interface Props<T> {
   className?: string;
@@ -10,7 +10,7 @@ interface Props<T> {
   border?: boolean;
   type?: string;
   name?: string;
-  fixHeight?: string;
+  autoHeight?: boolean;
 }
 
 export const Input: React.FC<Props<unknown>> = (
@@ -25,7 +25,7 @@ export const Input: React.FC<Props<unknown>> = (
     name,
     value
   }) => {
-  const onChangeListener = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeListener = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     onChange && onChange(e);
   }, [onChange]);
@@ -56,23 +56,39 @@ export const TextArea: React.FC<Props<unknown>> = (
     value,
     name,
     type,
-    fixHeight
+    autoHeight
   }) => {
-  const onChangeListener = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  
+  const autoSizeHandler = useCallback(() => {
+    if (textAreaRef.current && autoHeight) {
+      textAreaRef.current.style.height = "auto";
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight + 8}px`;
+      console.log("excuted");
+    }
+  }, [autoHeight]);
+
+  const onChangeListener = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     onChange && onChange(e);
   }, [onChange]);
+
+  useEffect(() => {
+    autoSizeHandler();
+  }, [value]);
 
   return (
     <div className={`${className && className} flex flex-col font-notoRegular`}>
       {legend && <legend className={"font-genshin"}>{legend}</legend>}
       <textarea
-        className={`mt-2 pt-4 pd-4 p-5 ${fixHeight ? `h-full` : "h-40vh" } placeholder-blackTint resize-none rounded-md ${border && "border-emailBg border-1" } ${border ? "focus:outline-focus" : "focus:outline-none"}`}
+        className={`mt-2 pt-4 pd-4 p-5 h-40vh placeholder-blackTint resize-none rounded-md ${border ? "border-emailBg border-1" : "" } ${border ? "focus:outline-focus" : "focus:outline-none"}`}
         readOnly={readonly}
         onChange={onChangeListener}
         value={String(value)}
         placeholder={placeholder}
-        name={name} />
+        rows={1}
+        name={name}
+        ref={textAreaRef} />
     </div>
   )
 }
