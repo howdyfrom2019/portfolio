@@ -10,7 +10,7 @@ import Email from "../pages/Email";
 
 interface LayoutProps {
   children: ReactNode;
-  audioCallback?: () => void;
+  audioCallback?: (playing?: boolean) => void;
   audioVal?: boolean;
 }
 
@@ -23,8 +23,8 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
   const [openEmail, setOpenEmail] = useState(false);
 
   const audioHandler = useCallback(() => {
-    audioCallback && audioCallback();
-  }, [audioCallback]);
+    audioCallback && audioCallback(!audioVal);
+  }, [audioCallback, audioVal]);
   
   const checkModalOpened = useCallback(() => {
     console.log(openMenu, openEmail);

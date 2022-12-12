@@ -1,4 +1,4 @@
-import React, {createContext, Dispatch, useCallback, useContext, useReducer, useState} from "react";
+import React, {createContext, Dispatch, useContext, useReducer} from "react";
 
 type ProgressProps = {
   progress: number;
