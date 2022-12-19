@@ -49,7 +49,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, audioCallback, audioVal 
     <div className={"fixed top-0 w-screen h-screen flex flex-col p-11"}>
       <div className={"relative w-full h-full z-10 mix-blend-difference"}>
         <div className={"absolute top-0 left-0 w-full flex items-center justify-between"}>
-          <span className={"font-genshin text-sm text-white uppercase cursor-pointer"}>Project: Fucking Awesome!</span>
+          <span className={"font-genshin text-sm text-white uppercase cursor-pointer"}>Project: Awesome Project</span>
           <div className={"flex gap-1vw"}>
             <Audio callback={audioHandler} isInitialPlaying={audioVal} />
             <Button className={"cursor-pointer text-white"} onClick={toggleMenu}>Menu</Button>
