@@ -62,11 +62,21 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
       });
     });
   }, []);
-  
+
   const addLocalImagesToPngGroup = useCallback(async() => {
-    const parrotLampIntro = await ImageLoader(37, 40);
-    const parrotLampContent = await ImageLoader(41,44);
-    
+    const assets: { [k in string]: string[] } = {};
+
+    await Promise.all([
+      ImageLoader('parrotLampIntro', 37, 40),
+      ImageLoader('parrotLampContent', 41, 44)
+    ]).then((res) => {
+      res.forEach(({ key, images}) => {
+        assets[key] = images;
+      });
+    });
+
+    const { parrotLampIntro, parrotLampContent } = assets;
+
     renderLayerGroupedImage({ srcs: parrotLampIntro, eachPosition: [
         { x: -2, y: 0, z: -4, ratioScale: 12 },
         { x: -37, y: -5, z: -3, ratioScale: 14 },

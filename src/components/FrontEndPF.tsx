@@ -120,25 +120,38 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
       }
     }
   }, [isModalOpened]);
-  
+
   const addLocalImagesToPngGroup = useCallback(async() => {
-    const introduction: string[] = await ImageLoader(1, 3);
-    const diveMsg = await ImageLoader(4);
-    const diveMsg2 = await ImageLoader(5);
-    const ocean = await ImageLoader(6);
-    const mintty = await ImageLoader(7);
-    const metaMask = await ImageLoader(8);
-    const minttyDesc = await ImageLoader(9, 10);
-    const nftDesc = await ImageLoader(11);
-    const nftPic = await ImageLoader(12);
-    const nftBlog = await ImageLoader(13, 15);
-    const internshipText = await ImageLoader(16);
-    const internshipBg = await ImageLoader(17);
-    const blueHomepage = await ImageLoader(18, 21);
-    const blueChart = await ImageLoader(22, 23);
-    const msiBg = await ImageLoader(25);
-    const msiText = await ImageLoader(24);
-    const msiContents = await ImageLoader(26, 36);
+    const assets: { [k in string]: string[] } = {};
+    await Promise.all([
+      ImageLoader('introduction',1, 3),
+      ImageLoader('diveMsg',4),
+      ImageLoader('diveMsg2',5),
+      ImageLoader('ocean',6),
+      ImageLoader('mintty',7),
+      ImageLoader('metaMask',8),
+      ImageLoader('minttyDesc',9, 10),
+      ImageLoader('nftDesc',11),
+      ImageLoader('nftPic',12),
+      ImageLoader('nftBlog',13, 15),
+      ImageLoader('internshipText',16),
+      ImageLoader('internshipBg',17),
+      ImageLoader('blueHomepage',18, 21),
+      ImageLoader('blueChart',22, 23),
+      ImageLoader('msiBg',25),
+      ImageLoader('msiText',24),
+      ImageLoader('msiContents', 26, 36)
+    ]).then((res) => {
+      res.forEach(({ key, images }) => {
+        assets[key] = images;
+      })
+    })
+    const {
+      introduction, diveMsg, diveMsg2, ocean, mintty,
+      metaMask, minttyDesc, nftDesc, nftPic, nftBlog, internshipText, internshipBg,
+      blueHomepage, blueChart, msiBg, msiText, msiContents
+    } = assets;
+
     renderLayerGroupedImage({ srcs: introduction, eachPosition: [
         { x: -10, y: 10, z: 0, userData: { url: "https://dev-russel.tistory.com" } },
         { x: 30, y: -7, z: 2 },
@@ -198,7 +211,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         { x: 0, y: -20, z: -1060 },
       ]});
   }, [renderLayerGroupedImage, renderVideoTexture]);
-  
+
   const addLight = useCallback((x: number, y: number, z: number) => {
     const color = 0xffffff;
     const intensity = 0.55;
@@ -207,7 +220,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     light.position.set(x, y, z);
     scene.current.add(light);
   }, []);
-  
+
   const init = useCallback(() => {
     // part1: renderer, camera initial setting.
     renderer.current.setSize(window.innerWidth, window.innerHeight);
@@ -226,7 +239,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     // const axes = new THREE.AxesHelper(150);
     // const gridHelper = new THREE.GridHelper(240, 20);
     // scene.current.add(axes, gridHelper);
-    
+
     //part2: fog generator
     const near = 40;
     const far = 100;
@@ -234,14 +247,14 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     scene.current.fog = new THREE.Fog(color, near, far);
     raycaster.current.near = near;
     raycaster.current.far = far;
-    
+
     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
     light.position.set(200, 200, 0);
     scene.current.add(light);
 
     addLocalImagesToPngGroup().then(() => addLight(0, 0, 90));
   }, [addLight, addLocalImagesToPngGroup]);
-  
+
   const animate = useCallback(() => {
     moveX.current += (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;
     moveY.current += (mouseY.current - moveY.current - window.innerHeight / 2) * 0.05;
@@ -254,7 +267,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     renderer.current.render(scene.current, camera.current);
     requestAnimationFrame(animate);
   }, []);
-  
+
   const setMouseMoveAxis = useCallback((e: MouseEvent) => {
     mouseX.current = e.clientX;
     mouseY.current = e.clientY;
@@ -270,7 +283,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   useEffect(() => {
     init();
     animate();
-    
+
     window.addEventListener("mousemove", setMouseMoveAxis, false);
     window.addEventListener("click", onClickObjectHandler, false);
     return () => {
