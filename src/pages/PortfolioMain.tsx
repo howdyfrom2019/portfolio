@@ -1,12 +1,12 @@
+import BGM from "@/assets/audio/eyes_on_fires.mp3";
+import Etcs from "@/components/Etcs";
+import FrontEndPF from "@/components/FrontEndPF";
+import MouseFollower from "@/components/MouseFollower";
+import ScrollNoti from "@/components/ScrollNoti";
+import BasicLayout from "@/layout/BasicLayout";
+import useScrollEvent from "@/lib/hooks/use-scroll-event";
 import { useCallback, useRef, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import BGM from "../assets/audio/eyes_on_fires.mp3";
-import Etcs from "../components/Etcs";
-import FrontEndPF from "../components/FrontEndPF";
-import MouseFollower from "../components/MouseFollower";
-import ScrollNoti from "../components/ScrollNoti";
-import BasicLayout from "../layout/BasicLayout";
-import useScrollEvent from "../lib/hooks/use-scroll-event";
 
 const PortfolioMain = () => {
   const scrollY = useRef(0);

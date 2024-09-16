@@ -1,3 +1,13 @@
+import Audio from "@/components/audio";
+import Button from "@/components/Button";
+import Menu from "@/components/Menu";
+import Progress from "@/components/Progress";
+import Email from "@/pages/Email";
+import { MenuPortal } from "@/pages/Portal";
+import {
+  useCheckModalOpenedDispatch,
+  useZProgressState,
+} from "@/store/context";
 import React, {
   ReactNode,
   useCallback,
@@ -5,16 +15,6 @@ import React, {
   useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Audio from "../components/audio";
-import Button from "../components/Button";
-import Menu from "../components/Menu";
-import Progress from "../components/Progress";
-import Email from "../pages/Email";
-import { MenuPortal } from "../pages/Portal";
-import {
-  useCheckModalOpenedDispatch,
-  useZProgressState,
-} from "../store/context";
 
 interface LayoutProps {
   children: ReactNode;

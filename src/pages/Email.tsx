@@ -1,9 +1,9 @@
+import Blob from "@/components/Blob";
+import Button from "@/components/Button";
+import { Input, TextArea } from "@/components/Input";
+import useUserAgent from "@/lib/hooks/use-user-agent";
+import { EmailPortal, PortalProps } from "@/pages/Portal";
 import React, { useCallback, useRef, useState } from "react";
-import Blob from "../components/Blob";
-import Button from "../components/Button";
-import { Input, TextArea } from "../components/Input";
-import useUserAgent from "../lib/hooks/use-user-agent";
-import { EmailPortal, PortalProps } from "./Portal";
 
 const Email: React.FC<PortalProps> = ({ className, style, close, onClose }) => {
   const [title, setTitle] = useState("");
