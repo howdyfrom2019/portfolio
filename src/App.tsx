@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import PortfolioMain from "./pages/PortfolioMain";
-import { ModalStateProvider, ZDepthProvider } from "./store/Context";
+import { ModalStateProvider, ZDepthProvider } from "./store/context";
 
 function App() {
   return (

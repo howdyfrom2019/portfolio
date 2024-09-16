@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
 import MinttyVid from "../assets/video/mintty.mp4";
+import useScrollEvent from "../lib/hooks/use-scroll-event";
+import useStageResize from "../lib/hooks/use-stage-resize";
+import { getLocalPortfolioAssetPath } from "../lib/utils/image-loader-util";
 import { LoadingPortal } from "../pages/Portal";
-import { useCheckModalOpened, useZProgressDispatch } from "../store/Context";
-import { ImageLoader } from "../utils/imageloader";
-import ScrollEvent from "../utils/scrollListener";
-import { StageResize } from "../utils/stageResize";
-
+import { useCheckModalOpened, useZProgressDispatch } from "../store/context";
 export interface ThreeObjectUserDataProps {
   url: string;
 }
@@ -68,7 +67,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     progressDispatch({ type: "onchange", progress: scrollY / eod });
   const clearProgress = () => progressDispatch({ type: "clear" });
 
-  StageResize(() => {
+  useStageResize(() => {
     camera.current.updateProjectionMatrix();
     renderer.current.setPixelRatio(
       window.devicePixelRatio ? window.devicePixelRatio : 1
@@ -76,7 +75,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     camera.current.aspect = window.innerWidth / window.innerHeight;
   });
-  ScrollEvent(() => {
+  useScrollEvent(() => {
     // pf2022: 0, mintty: 1400, internship: 4300, lol: 7300
     cntPage.current = Math.ceil(window.scrollY / 100);
 
@@ -167,23 +166,23 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
   const addLocalImagesToPngGroup = useCallback(async () => {
     const assets: { [k in string]: string[] } = {};
     await Promise.all([
-      ImageLoader("introduction", 1, 3),
-      ImageLoader("diveMsg", 4),
-      ImageLoader("diveMsg2", 5),
-      ImageLoader("ocean", 6),
-      ImageLoader("mintty", 7),
-      ImageLoader("metaMask", 8),
-      ImageLoader("minttyDesc", 9, 10),
-      ImageLoader("nftDesc", 11),
-      ImageLoader("nftPic", 12),
-      ImageLoader("nftBlog", 13, 15),
-      ImageLoader("internshipText", 16),
-      ImageLoader("internshipBg", 17),
-      ImageLoader("blueHomepage", 18, 21),
-      ImageLoader("blueChart", 22, 23),
-      ImageLoader("msiBg", 25),
-      ImageLoader("msiText", 24),
-      ImageLoader("msiContents", 26, 36),
+      getLocalPortfolioAssetPath("introduction", 1, 3),
+      getLocalPortfolioAssetPath("diveMsg", 4),
+      getLocalPortfolioAssetPath("diveMsg2", 5),
+      getLocalPortfolioAssetPath("ocean", 6),
+      getLocalPortfolioAssetPath("mintty", 7),
+      getLocalPortfolioAssetPath("metaMask", 8),
+      getLocalPortfolioAssetPath("minttyDesc", 9, 10),
+      getLocalPortfolioAssetPath("nftDesc", 11),
+      getLocalPortfolioAssetPath("nftPic", 12),
+      getLocalPortfolioAssetPath("nftBlog", 13, 15),
+      getLocalPortfolioAssetPath("internshipText", 16),
+      getLocalPortfolioAssetPath("internshipBg", 17),
+      getLocalPortfolioAssetPath("blueHomepage", 18, 21),
+      getLocalPortfolioAssetPath("blueChart", 22, 23),
+      getLocalPortfolioAssetPath("msiBg", 25),
+      getLocalPortfolioAssetPath("msiText", 24),
+      getLocalPortfolioAssetPath("msiContents", 26, 36),
     ]).then((res) => {
       res.forEach(({ key, images }) => {
         assets[key] = images;

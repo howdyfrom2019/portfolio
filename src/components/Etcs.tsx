@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import {useZProgressDispatch} from "../store/Context";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as THREE from "three";
-import {StageResize} from "../utils/stageResize";
-import ScrollEvent from "../utils/scrollListener";
-import {LoadingPortal} from "../pages/Portal";
-import {GroupedImageRenderProps} from "./FrontEndPF";
-import {ImageLoader} from "../utils/imageloader";
-import {useLocation, useNavigate} from "react-router-dom";
+import useScrollEvent from "../lib/hooks/use-scroll-event";
+import useStageResize from "../lib/hooks/use-stage-resize";
+import { getLocalPortfolioAssetPath } from "../lib/utils/image-loader-util";
+import { LoadingPortal } from "../pages/Portal";
+import { useZProgressDispatch } from "../store/context";
+import { GroupedImageRenderProps } from "./FrontEndPF";
 
 interface EtcsProps {
   toggleMusic?: (isPlaying?: boolean) => void;
@@ -26,70 +26,102 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
   const mouseY = useRef(0);
   const scrollY = useRef(0);
   const scene = useRef<THREE.Scene>(new THREE.Scene());
-  const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 10000));
-  const renderer = useRef<THREE.WebGLRenderer>(new THREE.WebGLRenderer({ antialias: false, alpha: true }));
+  const camera = useRef<THREE.PerspectiveCamera>(
+    new THREE.PerspectiveCamera(
+      80,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      10000
+    )
+  );
+  const renderer = useRef<THREE.WebGLRenderer>(
+    new THREE.WebGLRenderer({ antialias: false, alpha: true })
+  );
   const canvasRef = useRef<HTMLDivElement>(null);
-  const updateProgress = (scrollY: number, eod: number) => progressDispatch({ type: "onchange", progress: (scrollY/eod) });
-  const clearProgress = () => progressDispatch({ type: "clear"});
+  const updateProgress = (scrollY: number, eod: number) =>
+    progressDispatch({ type: "onchange", progress: scrollY / eod });
+  const clearProgress = () => progressDispatch({ type: "clear" });
 
-  StageResize(() => {
+  useStageResize(() => {
     camera.current.updateProjectionMatrix();
-    renderer.current.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+    renderer.current.setPixelRatio(
+      window.devicePixelRatio ? window.devicePixelRatio : 1
+    );
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     camera.current.aspect = window.innerWidth / window.innerHeight;
   });
-  ScrollEvent(() => {
+  useScrollEvent(() => {
     cntPage.current = Math.ceil(window.scrollY / 100);
-    const [currScrollY, endOfDocs] = [window.scrollY + window.innerHeight, document.body.scrollHeight];
+    const [currScrollY, endOfDocs] = [
+      window.scrollY + window.innerHeight,
+      document.body.scrollHeight,
+    ];
     if (currScrollY === endOfDocs) clearProgress();
-    else if (window.scrollY === 0 && scrollY.current > window.scrollY) navigate(-1);
+    else if (window.scrollY === 0 && scrollY.current > window.scrollY)
+      navigate(-1);
     else updateProgress(currScrollY, endOfDocs);
     scrollY.current = window.scrollY;
   });
 
-  const renderLayerGroupedImage = useCallback((args: GroupedImageRenderProps) => {
-    const { srcs, eachPosition, ratioScale } = args;
-    srcs.forEach((src, i) => {
-      const imageMap = new THREE.TextureLoader().load(src, (tex) => {
-        const { x, y, z, ratioScale: _ratioScale } = eachPosition[i];
-        const width = Math.floor(tex.image.width / (_ratioScale || ratioScale || 10));
-        const height = Math.floor(tex.image.height / (_ratioScale || ratioScale || 10));
-        const geometry = new THREE.BoxGeometry(width, height, 0);
-        const material = new THREE.MeshBasicMaterial({ map: imageMap, transparent: true, color: 0xffffff });
-        const boxMesh = new THREE.Mesh(geometry, material);
-        boxMesh.position.set(x, y, z);
-        pngGroup.current.add(boxMesh);
+  const renderLayerGroupedImage = useCallback(
+    (args: GroupedImageRenderProps) => {
+      const { srcs, eachPosition, ratioScale } = args;
+      srcs.forEach((src, i) => {
+        const imageMap = new THREE.TextureLoader().load(src, (tex) => {
+          const { x, y, z, ratioScale: _ratioScale } = eachPosition[i];
+          const width = Math.floor(
+            tex.image.width / (_ratioScale || ratioScale || 10)
+          );
+          const height = Math.floor(
+            tex.image.height / (_ratioScale || ratioScale || 10)
+          );
+          const geometry = new THREE.BoxGeometry(width, height, 0);
+          const material = new THREE.MeshBasicMaterial({
+            map: imageMap,
+            transparent: true,
+            color: 0xffffff,
+          });
+          const boxMesh = new THREE.Mesh(geometry, material);
+          boxMesh.position.set(x, y, z);
+          pngGroup.current.add(boxMesh);
+        });
       });
-    });
-  }, []);
+    },
+    []
+  );
 
-  const addLocalImagesToPngGroup = useCallback(async() => {
+  const addLocalImagesToPngGroup = useCallback(async () => {
     const assets: { [k in string]: string[] } = {};
 
     await Promise.all([
-      ImageLoader('parrotLampIntro', 37, 40),
-      ImageLoader('parrotLampContent', 41, 44)
+      getLocalPortfolioAssetPath("parrotLampIntro", 37, 40),
+      getLocalPortfolioAssetPath("parrotLampContent", 41, 44),
     ]).then((res) => {
-      res.forEach(({ key, images}) => {
+      res.forEach(({ key, images }) => {
         assets[key] = images;
       });
     });
 
     const { parrotLampIntro, parrotLampContent } = assets;
 
-    renderLayerGroupedImage({ srcs: parrotLampIntro, eachPosition: [
+    renderLayerGroupedImage({
+      srcs: parrotLampIntro,
+      eachPosition: [
         { x: -2, y: 0, z: -4, ratioScale: 12 },
         { x: -37, y: -5, z: -3, ratioScale: 14 },
         { x: 30, y: -5, z: -2, ratioScale: 16 },
-        { x: 0, y: -5, z: 1 }
-      ]
+        { x: 0, y: -5, z: 1 },
+      ],
     });
-    renderLayerGroupedImage({ srcs: parrotLampContent, eachPosition: [
+    renderLayerGroupedImage({
+      srcs: parrotLampContent,
+      eachPosition: [
         { x: 0, y: 0, z: -44 },
         { x: 0, y: 0, z: -85 },
         { x: 0, y: 0, z: -150 },
-        { x: 0, y: 0, z: -151 }
-      ]});
+        { x: 0, y: 0, z: -151 },
+      ],
+    });
   }, [renderLayerGroupedImage]);
 
   const init = useCallback(() => {
@@ -103,9 +135,9 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
     document.body.style.height = `${window.innerHeight + 37.5 * 300}px`;
 
     THREE.DefaultLoadingManager.onProgress = (url, item, total) => {
-      setLoading(Math.ceil(100 * item / total));
+      setLoading(Math.ceil((100 * item) / total));
       // if (item === total) toggleMusic && toggleMusic(true);
-    }
+    };
 
     const near = 40;
     const far = 100;
@@ -122,15 +154,21 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
       light.castShadow = true;
       light.position.set(0, 0, 90);
       scene.current.add(light);
-    })
+    });
   }, [addLocalImagesToPngGroup]);
 
   const animate = useCallback(() => {
-    moveX.current += (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;
-    moveY.current += (mouseY.current - moveY.current - window.innerHeight / 2) * 0.05;
+    moveX.current +=
+      (mouseX.current - moveX.current - window.innerWidth / 2) * 0.05;
+    moveY.current +=
+      (mouseY.current - moveY.current - window.innerHeight / 2) * 0.05;
     moveZ.current += (cntPage.current * 30 - moveZ.current) * 0.07;
     pngGroup.current.position.set(0, 0, moveZ.current / 3);
-    pngGroup.current.rotation.set(moveY.current * Math.PI / (180 * 300), moveX.current* Math.PI / (180 * 400), 0);
+    pngGroup.current.rotation.set(
+      (moveY.current * Math.PI) / (180 * 300),
+      (moveX.current * Math.PI) / (180 * 400),
+      0
+    );
 
     camera.current.lookAt(scene.current.position);
     camera.current.updateProjectionMatrix();
@@ -151,19 +189,26 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
     window.addEventListener("mousemove", setMouseMoveAxis, false);
     return () => {
       window.removeEventListener("mousemove", setMouseMoveAxis);
-    }
+    };
   }, [animate, init, location, setMouseMoveAxis]);
 
   return (
     <>
-      <div className={"fixed left-0 top-0 w-screen h-screen z-0"} ref={canvasRef} />
+      <div
+        className={"fixed left-0 top-0 w-screen h-screen z-0"}
+        ref={canvasRef}
+      />
       <LoadingPortal close={loading === 100}>
-        <span className={"font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"}>
+        <span
+          className={
+            "font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"
+          }
+        >
           {loading}%
         </span>
       </LoadingPortal>
     </>
-  )
-}
+  );
+};
 
 export default Etcs;

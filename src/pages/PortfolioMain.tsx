@@ -1,12 +1,12 @@
-import BasicLayout from "../layout/BasicLayout";
-import ScrollNoti from "../components/ScrollNoti";
-import scrollListener from "../utils/scrollListener";
-import {useCallback, useRef, useState} from "react";
-import FrontEndPF from "../components/FrontEndPF";
-import {Routes, Route} from "react-router-dom";
+import { useCallback, useRef, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import BGM from "../assets/audio/eyes_on_fires.mp3";
 import Etcs from "../components/Etcs";
+import FrontEndPF from "../components/FrontEndPF";
 import MouseFollower from "../components/MouseFollower";
+import ScrollNoti from "../components/ScrollNoti";
+import BasicLayout from "../layout/BasicLayout";
+import useScrollEvent from "../lib/hooks/use-scroll-event";
 
 const PortfolioMain = () => {
   const scrollY = useRef(0);
@@ -14,7 +14,7 @@ const PortfolioMain = () => {
   const [audioToggle, setAudioToggle] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  scrollListener(() => {
+  useScrollEvent(() => {
     const currentHeight = window.scrollY;
     if (scrollY.current < currentHeight) {
       setShowNoti(false);
@@ -35,13 +35,16 @@ const PortfolioMain = () => {
     }
   }, []);
 
-  return(
+  return (
     <>
       <BasicLayout audioCallback={toggleBGM} audioVal={audioToggle}>
         {showNoti && <ScrollNoti />}
         <Routes>
           <Route index element={<FrontEndPF toggleMusic={toggleBGM} />} />
-          <Route path={"/front-end"} element={<FrontEndPF toggleMusic={toggleBGM} />} />
+          <Route
+            path={"/front-end"}
+            element={<FrontEndPF toggleMusic={toggleBGM} />}
+          />
           <Route path={"/etcs"} element={<Etcs toggleMusic={toggleBGM} />} />
         </Routes>
         <MouseFollower />
@@ -50,7 +53,7 @@ const PortfolioMain = () => {
         <source src={BGM} type={"audio/mp3"} />
       </audio>
     </>
-  )
-}
+  );
+};
 
 export default PortfolioMain;
