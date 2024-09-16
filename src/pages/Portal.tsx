@@ -1,4 +1,4 @@
-import React, {CSSProperties, useEffect} from "react";
+import React, { CSSProperties, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export interface PortalProps {
@@ -9,7 +9,7 @@ export interface PortalProps {
   children?: React.ReactNode;
 }
 
-export const LoadingPortal: React.FC<PortalProps> = (props) => {
+export const LoadingPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
@@ -18,15 +18,20 @@ export const LoadingPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-white z-999`} style={style}>
+      <div
+        className={`${className ? className : ""} ${
+          close ? "hidden" : "flex"
+        } fixed top-0 left-0 w-screen h-screen bg-white z-999`}
+        style={style}
+      >
         {children}
       </div>
     </>,
     document.getElementById("loading") as HTMLElement
-  )
-}
+  );
+};
 
-export const MenuPortal: React.FC<PortalProps> = (props) => {
+export const MenuPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
@@ -35,15 +40,20 @@ export const MenuPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-blackTint z-999 transition-all delay-200 cursor-default`} style={style}>
+      <div
+        className={`${className ? className : ""} ${
+          close ? "hidden" : "flex"
+        } fixed top-0 left-0 w-screen h-screen bg-blackTint z-999 transition-all delay-200 cursor-default`}
+        style={style}
+      >
         {children}
       </div>
     </>,
     document.getElementById("menu") as HTMLElement
-  )
-}
+  );
+};
 
-export const EmailPortal: React.FC<PortalProps> = (props) => {
+export const EmailPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
@@ -52,10 +62,15 @@ export const EmailPortal: React.FC<PortalProps> = (props) => {
 
   return createPortal(
     <>
-      <div className={`${className ? className : ""} ${close ? "hidden" : "flex"} fixed top-0 left-0 w-screen h-screen bg-emailBg z-999 transition-all delay-200 cursor-default`} style={style}>
+      <div
+        className={`${className ? className : ""} ${
+          close ? "hidden" : "flex"
+        } fixed top-0 left-0 w-screen h-screen bg-emailBg z-999 transition-all delay-200 cursor-default`}
+        style={style}
+      >
         {children}
       </div>
     </>,
     document.getElementById("email") as HTMLElement
-  )
-}
+  );
+};

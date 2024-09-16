@@ -1,9 +1,8 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PortfolioMain from "./pages/PortfolioMain";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
 import Home from "./pages/Home";
-import {ModalStateProvider, ZDepthProvider} from "./store/Context";
+import PortfolioMain from "./pages/PortfolioMain";
+import { ModalStateProvider, ZDepthProvider } from "./store/Context";
 
 function App() {
   return (
