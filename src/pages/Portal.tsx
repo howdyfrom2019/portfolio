@@ -1,5 +1,5 @@
-import React, { CSSProperties, useEffect } from "react";
-import { createPortal } from "react-dom";
+import React, { CSSProperties, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export interface PortalProps {
   className?: string;
@@ -13,21 +13,21 @@ export const LoadingPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
-    document.body.style.overflow = `${close ? "unset" : "hidden"}`;
+    document.body.style.overflow = `${close ? 'unset' : 'hidden'}`;
   }, [close]);
 
   return createPortal(
     <>
       <div
-        className={`${className ? className : ""} ${
-          close ? "hidden" : "flex"
-        } fixed top-0 left-0 w-screen h-screen bg-white z-999`}
+        className={`${className ? className : ''} ${
+          close ? 'hidden' : 'flex'
+        } fixed left-0 top-0 z-999 h-screen w-screen bg-white`}
         style={style}
       >
         {children}
       </div>
     </>,
-    document.getElementById("loading") as HTMLElement
+    document.getElementById('loading') as HTMLElement,
   );
 };
 
@@ -35,21 +35,21 @@ export const MenuPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
-    document.body.style.overflow = `${close ? "unset" : "hidden"}`;
+    document.body.style.overflow = `${close ? 'unset' : 'hidden'}`;
   }, [close]);
 
   return createPortal(
     <>
       <div
-        className={`${className ? className : ""} ${
-          close ? "hidden" : "flex"
-        } fixed top-0 left-0 w-screen h-screen bg-blackTint z-999 transition-all delay-200 cursor-default`}
+        className={`${className ? className : ''} ${
+          close ? 'hidden' : 'flex'
+        } fixed left-0 top-0 z-999 h-screen w-screen cursor-default bg-blackTint transition-all delay-200`}
         style={style}
       >
         {children}
       </div>
     </>,
-    document.getElementById("menu") as HTMLElement
+    document.getElementById('menu') as HTMLElement,
   );
 };
 
@@ -57,20 +57,20 @@ export const EmailPortal = (props: PortalProps) => {
   const { className, style, close, children } = props;
 
   useEffect(() => {
-    document.body.style.overflow = `${close ? "unset" : "hidden"}`;
+    document.body.style.overflow = `${close ? 'unset' : 'hidden'}`;
   }, [close]);
 
   return createPortal(
     <>
       <div
-        className={`${className ? className : ""} ${
-          close ? "hidden" : "flex"
-        } fixed top-0 left-0 w-screen h-screen bg-emailBg z-999 transition-all delay-200 cursor-default`}
+        className={`${className ? className : ''} ${
+          close ? 'hidden' : 'flex'
+        } fixed left-0 top-0 z-999 h-screen w-screen cursor-default bg-emailBg transition-all delay-200`}
         style={style}
       >
         {children}
       </div>
     </>,
-    document.getElementById("email") as HTMLElement
+    document.getElementById('email') as HTMLElement,
   );
 };
