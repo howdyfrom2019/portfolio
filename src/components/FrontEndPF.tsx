@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
-import MinttyVid from "../assets/video/mintty.mp4";
-import useScrollEvent from "../lib/hooks/use-scroll-event";
-import useStageResize from "../lib/hooks/use-stage-resize";
-import { getLocalPortfolioAssetPath } from "../lib/utils/image-loader-util";
-import { LoadingPortal } from "../pages/Portal";
-import { useCheckModalOpened, useZProgressDispatch } from "../store/context";
+import MinttyVid from "@/assets/video/mintty.mp4";
+import useScrollEvent from "@/lib/hooks/use-scroll-event";
+import useStageResize from "@/lib/hooks/use-stage-resize";
+import { getLocalPortfolioAssetPath } from "@/lib/utils/image-loader-util";
+import { useCheckModalOpened, useZProgressDispatch } from "@/store/context";
+import { Popover } from "@/components/popover";
 export interface ThreeObjectUserDataProps {
   url: string;
 }
@@ -471,7 +471,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
       >
         <source src={MinttyVid} type={"video/mp4"} />
       </video>
-      <LoadingPortal close={loading === 100}>
+      <Popover open={loading !== 100}>
         <span
           className={
             "font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"
@@ -479,7 +479,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         >
           {loading}%
         </span>
-      </LoadingPortal>
+      </Popover>
     </>
   );
 };

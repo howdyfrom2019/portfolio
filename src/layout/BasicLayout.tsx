@@ -1,13 +1,11 @@
 import Audio from "@/components/audio";
 import Button from "@/components/Button";
-import Menu from "@/components/Menu";
 import Progress from "@/components/Progress";
-import Email from "@/pages/Email";
-import { MenuPortal } from "@/pages/Portal";
-import {
-  useCheckModalOpenedDispatch,
-  useZProgressState,
-} from "@/store/context";
+import
+  {
+    useCheckModalOpenedDispatch,
+    useZProgressState,
+  } from "@/store/context";
 import React, {
   ReactNode,
   useCallback,
@@ -109,7 +107,7 @@ const BasicLayout: React.FC<LayoutProps> = ({
         />
       </div>
       {children}
-      <MenuPortal close={!openMenu}>
+      {/* <MenuPortal close={!openMenu}>
         <Menu
           onClose={toggleMenu}
           close={openMenu}
@@ -119,8 +117,8 @@ const BasicLayout: React.FC<LayoutProps> = ({
             } else navigator("/page/etcs", { state: { y: y } });
           }}
         />
-      </MenuPortal>
-      <Email close={!openEmail} onClose={toggleEmail} />
+      </MenuPortal> */}
+      {/* <Email close={!openEmail} onClose={toggleEmail} /> */}
     </div>
   );
 };
