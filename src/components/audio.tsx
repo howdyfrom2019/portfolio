@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils/tailwind-util';
 import React, {
   CSSProperties,
   useCallback,
@@ -39,22 +40,46 @@ const Audio: React.FC<AudioProps> = ({
       onClick={toggle}
     >
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-600`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-600',
+          isPlay && 'animate-sound',
+        ])}
       />
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-1100`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-1100',
+          isPlay && 'animate-sound',
+        ])}
       />
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-2000`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-2000',
+          isPlay && 'animate-sound',
+        ])}
       />
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-1000`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-1000',
+          isPlay && 'animate-sound',
+        ])}
       />
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-1500`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-1500',
+          isPlay && 'animate-sound',
+        ])}
       />
       <span
-        className={`mr-1.5 h-px w-px scale-y-200 bg-white ${isPlay && 'animate-sound'} animation-delay-600`}
+        className={cn([
+          `mr-1.5 h-px w-px scale-y-200 bg-white`,
+          'animation-delay-600',
+          isPlay && 'animate-sound',
+        ])}
       />
     </div>
   );

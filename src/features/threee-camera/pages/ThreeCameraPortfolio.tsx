@@ -1,9 +1,9 @@
 import BGM from '@/assets/audio/eyes_on_fires.mp3';
 import Etcs from '@/components/Etcs';
 import FrontEndPF from '@/components/FrontEndPF';
-import MouseFollower from '@/components/MouseFollower';
-import ScrollNoti from '@/components/ScrollNoti';
-import BasicLayout from '@/layout/BasicLayout';
+import MouseFollower from '@/components/mouse-follower';
+import ScrollNoti from '@/components/scroll-noti';
+import BasicLayout from '@/layout/basic-layout';
 import useScrollEvent from '@/lib/hooks/use-scroll-event';
 import { useCallback, useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';

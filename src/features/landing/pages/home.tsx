@@ -1,7 +1,7 @@
 import Background from '@/assets/png/intro-bg.jpg';
 import Intro from '@/assets/video/intro.mp4';
 import Audio from '@/components/audio';
-import Button from '@/components/Button';
+import Button from '@/components/button';
 import useStageResize from '@/lib/hooks/use-stage-resize';
 import useUserAgent from '@/lib/hooks/use-user-agent';
 import { useCallback, useEffect, useRef } from 'react';

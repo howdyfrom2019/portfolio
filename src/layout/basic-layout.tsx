@@ -1,6 +1,6 @@
 import Audio from '@/components/audio';
-import Button from '@/components/Button';
-import Progress from '@/components/Progress';
+import Button from '@/components/button';
+import Progress from '@/components/progress';
 import {
   useCheckModalOpenedDispatch,
   useZProgressState,
