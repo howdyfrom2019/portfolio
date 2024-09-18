@@ -1,11 +1,11 @@
-import Background from "@/assets/png/intro-bg.jpg";
-import Intro from "@/assets/video/intro.mp4";
-import Audio from "@/components/audio";
-import Button from "@/components/Button";
-import useStageResize from "@/lib/hooks/use-stage-resize";
-import useUserAgent from "@/lib/hooks/use-user-agent";
-import { useCallback, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import Background from '@/assets/png/intro-bg.jpg';
+import Intro from '@/assets/video/intro.mp4';
+import Audio from '@/components/audio';
+import Button from '@/components/Button';
+import useStageResize from '@/lib/hooks/use-stage-resize';
+import useUserAgent from '@/lib/hooks/use-user-agent';
+import { useCallback, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigator = useNavigate();
@@ -54,36 +54,36 @@ const Home = () => {
       mouseX.current = e.clientX - window.innerWidth / 2;
       mouseY.current = e.clientY - window.innerHeight / 2;
     },
-    [mouseX, mouseY]
+    [mouseX, mouseY],
   );
 
   const enterToPortfolio = useCallback(() => {
-    navigator("/page/front-end");
+    navigator('/page/front-end');
   }, [navigator]);
 
   useEffect(() => {
     animate();
     if (!isDesktop) {
-      entranceRef.current && (entranceRef.current.style.display = "block");
+      entranceRef.current && (entranceRef.current.style.display = 'block');
     }
-    window.addEventListener("mousemove", setMouseMoveAxis, false);
+    window.addEventListener('mousemove', setMouseMoveAxis, false);
 
     return () => {
-      window.removeEventListener("mousemove", setMouseMoveAxis);
+      window.removeEventListener('mousemove', setMouseMoveAxis);
     };
   }, [animate, setMouseMoveAxis]);
   return (
-    <div className={"relative w-screen h-screen overflow-hidden"}>
+    <div className={'relative h-screen w-screen overflow-hidden'}>
       {isDesktop && (
         <>
-          <div className={"absolute top-1vw right-1vw flex items-center z-10"}>
+          <div className={'absolute right-1vw top-1vw z-10 flex items-center'}>
             <Audio
-              className={"z-10"}
+              className={'z-10'}
               isInitialPlaying={false}
               callback={toggleVideoAudio}
             />
             <Button
-              className={"z-10 text-white"}
+              className={'z-10 text-white'}
               onClick={() =>
                 videoRef.current &&
                 (videoRef.current.currentTime = videoRef.current.duration)
@@ -93,7 +93,7 @@ const Home = () => {
             </Button>
           </div>
           <video
-            className={"scale-125"}
+            className={'scale-125'}
             muted
             playsInline
             autoPlay
@@ -102,46 +102,46 @@ const Home = () => {
             ref={videoRef}
             onEnded={() =>
               entranceRef.current &&
-              (entranceRef.current.style.display = "block")
+              (entranceRef.current.style.display = 'block')
             }
           >
-            <source src={Intro} type={"video/mp4"} />
+            <source src={Intro} type={'video/mp4'} />
           </video>
         </>
       )}
       <div
-        className={"hidden w-screen h-screen absolute top-0 left-0 z-20"}
+        className={'absolute left-0 top-0 z-20 hidden h-screen w-screen'}
         ref={entranceRef}
       >
         <img
           src={Background}
-          className={"absolute top-0 left-0 w-full h-full object-cover"}
-          alt={"background"}
+          className={'absolute left-0 top-0 h-full w-full object-cover'}
+          alt={'background'}
           ref={bgRef}
         />
         <span
           className={
-            "absolute top-0 left-1/2 -translate-x-1/2 text-240 text-white z-20 mt-1vw"
+            'absolute left-1/2 top-0 z-20 mt-1vw -translate-x-1/2 text-240 text-white'
           }
         >
           2022
         </span>
         <span
           className={
-            "absolute top-20vw left-1/2 -translate-x-1/2 text-2xl text-white z-20 text-center"
+            'absolute left-1/2 top-20vw z-20 -translate-x-1/2 text-center text-2xl text-white'
           }
         >
           Web Front-End Developer, Russel.dev
         </span>
         <span
           className={
-            "absolute bottom-4vw left-1/2 -translate-x-1/2 w-20vmax h-10vmax rounded-tl-upperCircle rounded-tr-upperCircle border-b-0 border-white border z-20"
+            'absolute bottom-4vw left-1/2 z-20 h-10vmax w-20vmax -translate-x-1/2 rounded-tl-upperCircle rounded-tr-upperCircle border border-b-0 border-white'
           }
           ref={circle}
         />
         <span
           className={
-            "absolute bottom-5vw left-1/2 -translate-x-1/2 font-genshin text-4xl text-white z-20 cursor-pointer"
+            'absolute bottom-5vw left-1/2 z-20 -translate-x-1/2 cursor-pointer font-genshin text-4xl text-white'
           }
           ref={enter}
           onClick={enterToPortfolio}

@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 * {
-    -ms-overflow-style: none;
+  -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 body {
@@ -18,38 +18,42 @@ body {
   background: white;
 }
 
-
 @font-face {
   font-family: Genshin;
-  src: url("./fonts/zh-cn.ttf")format("truetype"),
-  url("./fonts/zh-cn.woff")format("woff"),
-  url("./fonts/zh-cn.woff2")format("woff2");
+  src:
+    url('@/assets/fonts/zh-cn.ttf') format('truetype'),
+    url('@/assets//fonts/zh-cn.woff') format('woff'),
+    url('@/assets//fonts/zh-cn.woff2') format('woff2');
 }
 
 @font-face {
   font-family: Destine;
-  src: url("./fonts/DestinePersonalUseRegular.otf")format("opentype"),
-  url("./fonts/DestinePersonalUseRegular.woff")format("woff"),
-  url("./fonts/DestinePersonalUseRegular.woff2")format("woff2");
+  src:
+    url('@/assets//fonts/DestinePersonalUseRegular.otf') format('opentype'),
+    url('@/assets//fonts/DestinePersonalUseRegular.woff') format('woff'),
+    url('@/assets/fonts/DestinePersonalUseRegular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: Linlegrey;
-  src: url("./fonts/Linlegreyregular.ttf")format("truetype"),
-  url("./fonts/Linlegreyregular.woff")format("woff"),
-  url("./fonts/Linlegreyregular.woff2")format("woff2");
+  src:
+    url('@/assets/fonts/Linlegreyregular.ttf') format('truetype'),
+    url('@/assets/fonts/Linlegreyregular.woff') format('woff'),
+    url('@/assets/fonts/Linlegreyregular.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Noto Sans KR Regular;
-    src: url("./fonts/NotoSansKR-Regular.otf") format('truetype'),
-    url("./fonts/NotoSansKR-Regular.woff") format('woff'),
-    url("./fonts/NotoSansKR-Regular.woff2") format('woff2');
+  font-family: Noto Sans KR Regular;
+  src:
+    url('@/assets/fonts/NotoSansKR-Regular.otf') format('truetype'),
+    url('@/assets/fonts/NotoSansKR-Regular.woff') format('woff'),
+    url('@/assets/fonts/NotoSansKR-Regular.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Noto Sans KR Medium;
-    src: url("./fonts/NotoSansKR-Medium.otf") format('truetype'),
-    url("./fonts/NotoSansKR-Medium.woff") format('woff'),
-    url("./fonts/NotoSansKR-Medium.woff2") format('woff2');
+  font-family: Noto Sans KR Medium;
+  src:
+    url('@/assets/fonts/NotoSansKR-Medium.otf') format('truetype'),
+    url('@/assets/fonts/NotoSansKR-Medium.woff') format('woff'),
+    url('@/assets/fonts/NotoSansKR-Medium.woff2') format('woff2');
 }

@@ -1,1 +1,1 @@
-export { default } from "@/features/landing/pages/home";
+export { default } from '@/features/landing/pages/home';

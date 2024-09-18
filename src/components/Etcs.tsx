@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import * as THREE from "three";
-import useScrollEvent from "../lib/hooks/use-scroll-event";
-import useStageResize from "../lib/hooks/use-stage-resize";
-import { getLocalPortfolioAssetPath } from "../lib/utils/image-loader-util";
-import { LoadingPortal } from "../pages/Portal";
-import { useZProgressDispatch } from "../store/context";
-import { GroupedImageRenderProps } from "./FrontEndPF";
+import { GroupedImageRenderProps } from '@/components/FrontEndPF';
+import { Popover } from '@/components/popover';
+import useScrollEvent from '@/lib/hooks/use-scroll-event';
+import useStageResize from '@/lib/hooks/use-stage-resize';
+import { getLocalPortfolioAssetPath } from '@/lib/utils/image-loader-util';
+import { useZProgressDispatch } from '@/store/context';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import * as THREE from 'three';
 
 interface EtcsProps {
   toggleMusic?: (isPlaying?: boolean) => void;
@@ -31,21 +31,21 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
       80,
       window.innerWidth / window.innerHeight,
       0.1,
-      10000
-    )
+      10000,
+    ),
   );
   const renderer = useRef<THREE.WebGLRenderer>(
-    new THREE.WebGLRenderer({ antialias: false, alpha: true })
+    new THREE.WebGLRenderer({ antialias: false, alpha: true }),
   );
   const canvasRef = useRef<HTMLDivElement>(null);
   const updateProgress = (scrollY: number, eod: number) =>
-    progressDispatch({ type: "onchange", progress: scrollY / eod });
-  const clearProgress = () => progressDispatch({ type: "clear" });
+    progressDispatch({ type: 'onchange', progress: scrollY / eod });
+  const clearProgress = () => progressDispatch({ type: 'clear' });
 
   useStageResize(() => {
     camera.current.updateProjectionMatrix();
     renderer.current.setPixelRatio(
-      window.devicePixelRatio ? window.devicePixelRatio : 1
+      window.devicePixelRatio ? window.devicePixelRatio : 1,
     );
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     camera.current.aspect = window.innerWidth / window.innerHeight;
@@ -70,10 +70,10 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
         const imageMap = new THREE.TextureLoader().load(src, (tex) => {
           const { x, y, z, ratioScale: _ratioScale } = eachPosition[i];
           const width = Math.floor(
-            tex.image.width / (_ratioScale || ratioScale || 10)
+            tex.image.width / (_ratioScale || ratioScale || 10),
           );
           const height = Math.floor(
-            tex.image.height / (_ratioScale || ratioScale || 10)
+            tex.image.height / (_ratioScale || ratioScale || 10),
           );
           const geometry = new THREE.BoxGeometry(width, height, 0);
           const material = new THREE.MeshBasicMaterial({
@@ -87,15 +87,15 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
         });
       });
     },
-    []
+    [],
   );
 
   const addLocalImagesToPngGroup = useCallback(async () => {
     const assets: { [k in string]: string[] } = {};
 
     await Promise.all([
-      getLocalPortfolioAssetPath("parrotLampIntro", 37, 40),
-      getLocalPortfolioAssetPath("parrotLampContent", 41, 44),
+      getLocalPortfolioAssetPath('parrotLampIntro', 37, 40),
+      getLocalPortfolioAssetPath('parrotLampContent', 41, 44),
     ]).then((res) => {
       res.forEach(({ key, images }) => {
         assets[key] = images;
@@ -127,7 +127,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
   const init = useCallback(() => {
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     renderer.current.setClearColor(0xffffff);
-    renderer.current.domElement.style.mixBlendMode = "difference";
+    renderer.current.domElement.style.mixBlendMode = 'difference';
     canvasRef.current?.appendChild(renderer.current.domElement);
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;
@@ -141,7 +141,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
 
     const near = 40;
     const far = 100;
-    const color = "#ffffff";
+    const color = '#ffffff';
     scene.current.fog = new THREE.Fog(color, near, far);
 
     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
@@ -167,7 +167,7 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
     pngGroup.current.rotation.set(
       (moveY.current * Math.PI) / (180 * 300),
       (moveX.current * Math.PI) / (180 * 400),
-      0
+      0,
     );
 
     camera.current.lookAt(scene.current.position);
@@ -186,27 +186,27 @@ const Etcs: React.FC<EtcsProps> = ({ toggleMusic }) => {
     init();
     animate();
 
-    window.addEventListener("mousemove", setMouseMoveAxis, false);
+    window.addEventListener('mousemove', setMouseMoveAxis, false);
     return () => {
-      window.removeEventListener("mousemove", setMouseMoveAxis);
+      window.removeEventListener('mousemove', setMouseMoveAxis);
     };
   }, [animate, init, location, setMouseMoveAxis]);
 
   return (
     <>
       <div
-        className={"fixed left-0 top-0 w-screen h-screen z-0"}
+        className={'fixed left-0 top-0 z-0 h-screen w-screen'}
         ref={canvasRef}
       />
-      <LoadingPortal close={loading === 100}>
+      <Popover open={loading !== 100}>
         <span
           className={
-            "font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"
+            'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-genshin text-8xl'
           }
         >
           {loading}%
         </span>
-      </LoadingPortal>
+      </Popover>
     </>
   );
 };

@@ -1,9 +1,16 @@
-import React, {ReactNode} from "react";
+import React, { ReactNode } from 'react';
 
-const Blob: React.FC<{ className?: string; children?: ReactNode }> = ({ className, children }) => {
+const Blob: React.FC<{ className?: string; children?: ReactNode }> = ({
+  className,
+  children,
+}) => {
   return (
-    <span className={`${className && className} pt-[2px] pb-[3px] p-4 bg-[#DFEDFE] rounded-full`}>{children}</span>
-  )
-}
+    <span
+      className={`${className && className} rounded-full bg-[#DFEDFE] p-4 pb-[3px] pt-[2px]`}
+    >
+      {children}
+    </span>
+  );
+};
 
 export default Blob;

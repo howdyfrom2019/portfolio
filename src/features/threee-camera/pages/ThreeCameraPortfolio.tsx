@@ -1,12 +1,12 @@
-import BGM from "@/assets/audio/eyes_on_fires.mp3";
-import Etcs from "@/components/Etcs";
-import FrontEndPF from "@/components/FrontEndPF";
-import MouseFollower from "@/components/MouseFollower";
-import ScrollNoti from "@/components/ScrollNoti";
-import BasicLayout from "@/layout/BasicLayout";
-import useScrollEvent from "@/lib/hooks/use-scroll-event";
-import { useCallback, useRef, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import BGM from '@/assets/audio/eyes_on_fires.mp3';
+import Etcs from '@/components/Etcs';
+import FrontEndPF from '@/components/FrontEndPF';
+import MouseFollower from '@/components/MouseFollower';
+import ScrollNoti from '@/components/ScrollNoti';
+import BasicLayout from '@/layout/BasicLayout';
+import useScrollEvent from '@/lib/hooks/use-scroll-event';
+import { useCallback, useRef, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 const ThreeCameraPortfolio = () => {
   const scrollY = useRef(0);
@@ -42,15 +42,15 @@ const ThreeCameraPortfolio = () => {
         <Routes>
           <Route index element={<FrontEndPF toggleMusic={toggleBGM} />} />
           <Route
-            path={"/front-end"}
+            path={'/front-end'}
             element={<FrontEndPF toggleMusic={toggleBGM} />}
           />
-          <Route path={"/etcs"} element={<Etcs toggleMusic={toggleBGM} />} />
+          <Route path={'/etcs'} element={<Etcs toggleMusic={toggleBGM} />} />
         </Routes>
         <MouseFollower />
       </BasicLayout>
       <audio muted autoPlay playsInline loop ref={audioRef}>
-        <source src={BGM} type={"audio/mp3"} />
+        <source src={BGM} type={'audio/mp3'} />
       </audio>
     </>
   );
