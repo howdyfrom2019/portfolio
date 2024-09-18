@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import * as THREE from "three";
-import MinttyVid from "../assets/video/mintty.mp4";
-import useScrollEvent from "../lib/hooks/use-scroll-event";
-import useStageResize from "../lib/hooks/use-stage-resize";
-import { getLocalPortfolioAssetPath } from "../lib/utils/image-loader-util";
-import { LoadingPortal } from "../pages/Portal";
-import { useCheckModalOpened, useZProgressDispatch } from "../store/context";
+import MinttyVid from '@/assets/video/mintty.mp4';
+import { Popover } from '@/components/popover';
+import useScrollEvent from '@/lib/hooks/use-scroll-event';
+import useStageResize from '@/lib/hooks/use-stage-resize';
+import { getLocalPortfolioAssetPath } from '@/lib/utils/image-loader-util';
+import { useCheckModalOpened, useZProgressDispatch } from '@/store/context';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as THREE from 'three';
 export interface ThreeObjectUserDataProps {
   url: string;
 }
@@ -53,24 +53,24 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
       80,
       window.innerWidth / window.innerHeight,
       0.1,
-      10000
-    )
+      10000,
+    ),
   );
   const renderer = useRef<THREE.WebGLRenderer>(
-    new THREE.WebGLRenderer({ antialias: false, alpha: true })
+    new THREE.WebGLRenderer({ antialias: false, alpha: true }),
   );
   const raycaster = useRef<THREE.Raycaster>(new THREE.Raycaster());
   const pointer = useRef<THREE.Vector2>(new THREE.Vector2());
   const canvasRef = useRef<HTMLDivElement>(null);
   const minttyRef = useRef<HTMLVideoElement>(null);
   const updateProgress = (scrollY: number, eod: number) =>
-    progressDispatch({ type: "onchange", progress: scrollY / eod });
-  const clearProgress = () => progressDispatch({ type: "clear" });
+    progressDispatch({ type: 'onchange', progress: scrollY / eod });
+  const clearProgress = () => progressDispatch({ type: 'clear' });
 
   useStageResize(() => {
     camera.current.updateProjectionMatrix();
     renderer.current.setPixelRatio(
-      window.devicePixelRatio ? window.devicePixelRatio : 1
+      window.devicePixelRatio ? window.devicePixelRatio : 1,
     );
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     camera.current.aspect = window.innerWidth / window.innerHeight;
@@ -84,7 +84,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
       document.body.scrollHeight,
     ];
     if (currScrollY === endOfDocs) {
-      navigator("/page/etcs");
+      navigator('/page/etcs');
       clearProgress();
     } else updateProgress(currScrollY, endOfDocs);
   });
@@ -102,10 +102,10 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
             userData,
           } = eachPosition[i];
           const width = Math.floor(
-            tex.image.width / (_ratioScale || ratioScale || 10)
+            tex.image.width / (_ratioScale || ratioScale || 10),
           );
           const height = Math.floor(
-            tex.image.height / (_ratioScale || ratioScale || 10)
+            tex.image.height / (_ratioScale || ratioScale || 10),
           );
           const geometry = new THREE.BoxGeometry(width, height, 0);
           const material = new THREE.MeshBasicMaterial({
@@ -120,7 +120,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         });
       });
     },
-    []
+    [],
   );
 
   const renderVideoTexture = useCallback((args: VideoRenderProps) => {
@@ -145,44 +145,44 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     (e: MouseEvent) => {
       pointer.current.set(
         (e.clientX / window.innerWidth) * 2 - 1,
-        -(e.clientY / window.innerHeight) * 2 + 1
+        -(e.clientY / window.innerHeight) * 2 + 1,
       );
       raycaster.current.setFromCamera(pointer.current, camera.current);
 
       if (isModalOpened) return;
       const intersects = raycaster.current.intersectObjects(
-        pngGroup.current.children
+        pngGroup.current.children,
       );
       for (const intersect of intersects) {
         if (intersect.object.userData?.url) {
-          window.open(intersect.object.userData?.url, "_blank");
+          window.open(intersect.object.userData?.url, '_blank');
           break;
         }
       }
     },
-    [isModalOpened]
+    [isModalOpened],
   );
 
   const addLocalImagesToPngGroup = useCallback(async () => {
     const assets: { [k in string]: string[] } = {};
     await Promise.all([
-      getLocalPortfolioAssetPath("introduction", 1, 3),
-      getLocalPortfolioAssetPath("diveMsg", 4),
-      getLocalPortfolioAssetPath("diveMsg2", 5),
-      getLocalPortfolioAssetPath("ocean", 6),
-      getLocalPortfolioAssetPath("mintty", 7),
-      getLocalPortfolioAssetPath("metaMask", 8),
-      getLocalPortfolioAssetPath("minttyDesc", 9, 10),
-      getLocalPortfolioAssetPath("nftDesc", 11),
-      getLocalPortfolioAssetPath("nftPic", 12),
-      getLocalPortfolioAssetPath("nftBlog", 13, 15),
-      getLocalPortfolioAssetPath("internshipText", 16),
-      getLocalPortfolioAssetPath("internshipBg", 17),
-      getLocalPortfolioAssetPath("blueHomepage", 18, 21),
-      getLocalPortfolioAssetPath("blueChart", 22, 23),
-      getLocalPortfolioAssetPath("msiBg", 25),
-      getLocalPortfolioAssetPath("msiText", 24),
-      getLocalPortfolioAssetPath("msiContents", 26, 36),
+      getLocalPortfolioAssetPath('introduction', 1, 3),
+      getLocalPortfolioAssetPath('diveMsg', 4),
+      getLocalPortfolioAssetPath('diveMsg2', 5),
+      getLocalPortfolioAssetPath('ocean', 6),
+      getLocalPortfolioAssetPath('mintty', 7),
+      getLocalPortfolioAssetPath('metaMask', 8),
+      getLocalPortfolioAssetPath('minttyDesc', 9, 10),
+      getLocalPortfolioAssetPath('nftDesc', 11),
+      getLocalPortfolioAssetPath('nftPic', 12),
+      getLocalPortfolioAssetPath('nftBlog', 13, 15),
+      getLocalPortfolioAssetPath('internshipText', 16),
+      getLocalPortfolioAssetPath('internshipBg', 17),
+      getLocalPortfolioAssetPath('blueHomepage', 18, 21),
+      getLocalPortfolioAssetPath('blueChart', 22, 23),
+      getLocalPortfolioAssetPath('msiBg', 25),
+      getLocalPortfolioAssetPath('msiText', 24),
+      getLocalPortfolioAssetPath('msiContents', 26, 36),
     ]).then((res) => {
       res.forEach(({ key, images }) => {
         assets[key] = images;
@@ -215,7 +215,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
           x: -10,
           y: 10,
           z: 0,
-          userData: { url: "https://dev-russel.tistory.com" },
+          userData: { url: 'https://dev-russel.tistory.com' },
         },
         { x: 30, y: -7, z: 2 },
         { x: -55, y: -28, z: 4 },
@@ -244,7 +244,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         x: 0,
         y: 0,
         z: -150,
-        userData: { url: "https://howdyfrom2019.github.io/mintty" },
+        userData: { url: 'https://howdyfrom2019.github.io/mintty' },
       };
       const scale = { w: 57, h: 24 };
       renderVideoTexture({
@@ -280,19 +280,19 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
           x: -40,
           y: 0,
           z: -340,
-          userData: { url: "https://dev-russel.tistory.com/search/nft" },
+          userData: { url: 'https://dev-russel.tistory.com/search/nft' },
         },
         {
           x: 20,
           y: 10,
           z: -340,
-          userData: { url: "https://dev-russel.tistory.com/search/nft" },
+          userData: { url: 'https://dev-russel.tistory.com/search/nft' },
         },
         {
           x: 20,
           y: -25,
           z: -340,
-          userData: { url: "https://dev-russel.tistory.com/search/nft" },
+          userData: { url: 'https://dev-russel.tistory.com/search/nft' },
         },
       ],
     });
@@ -309,8 +309,8 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
       srcs: blueHomepage,
       eachPosition: [
         { x: -5, y: 0, z: -470 },
-        { x: 0, y: 8, z: -581, userData: { url: "https://www.bluepoint.ac" } },
-        { x: 0, y: -5, z: -580, userData: { url: "https://www.bluepoint.ac" } },
+        { x: 0, y: 8, z: -581, userData: { url: 'https://www.bluepoint.ac' } },
+        { x: 0, y: -5, z: -580, userData: { url: 'https://www.bluepoint.ac' } },
         { x: 5, y: 5, z: -520 },
       ],
     });
@@ -328,7 +328,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
           x: 0,
           y: 0,
           z: -731,
-          userData: { url: "https://github.com/howdyfrom2019/MsiMacro" },
+          userData: { url: 'https://github.com/howdyfrom2019/MsiMacro' },
         },
       ],
       ratioScale: 6,
@@ -371,7 +371,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     // part1: renderer, camera initial setting.
     renderer.current.setSize(window.innerWidth, window.innerHeight);
     renderer.current.setClearColor(0xffffff);
-    renderer.current.domElement.style.mixBlendMode = "difference";
+    renderer.current.domElement.style.mixBlendMode = 'difference';
     canvasRef.current?.appendChild(renderer.current.domElement);
     camera.current.position.set(0, 0, 50);
     renderer.current.shadowMap.enabled = true;
@@ -389,7 +389,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     //part2: fog generator
     const near = 40;
     const far = 100;
-    const color = "#ffffff";
+    const color = '#ffffff';
     scene.current.fog = new THREE.Fog(color, near, far);
     raycaster.current.near = near;
     raycaster.current.far = far;
@@ -411,7 +411,7 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
     pngGroup.current.rotation.set(
       (moveY.current * Math.PI) / (180 * 300),
       (moveX.current * Math.PI) / (180 * 400),
-      0
+      0,
     );
 
     camera.current.lookAt(scene.current.position);
@@ -426,37 +426,37 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
 
     pointer.current.set(
       (e.clientX / window.innerWidth) * 2 - 1,
-      -(e.clientY / window.innerHeight) * 2 + 1
+      -(e.clientY / window.innerHeight) * 2 + 1,
     );
     raycaster.current.setFromCamera(pointer.current, camera.current);
 
     const intersects = raycaster.current.intersectObjects(
-      pngGroup.current.children
+      pngGroup.current.children,
     );
     if (
       intersects.length > 0 &&
       intersects.reduce((acc, val) => acc || val.object.userData?.url, false)
     )
-      document.body.style.cursor = "pointer";
-    else document.body.style.cursor = "auto";
+      document.body.style.cursor = 'pointer';
+    else document.body.style.cursor = 'auto';
   }, []);
 
   useEffect(() => {
     init();
     animate();
 
-    window.addEventListener("mousemove", setMouseMoveAxis, false);
-    window.addEventListener("click", onClickObjectHandler, false);
+    window.addEventListener('mousemove', setMouseMoveAxis, false);
+    window.addEventListener('click', onClickObjectHandler, false);
     return () => {
-      window.removeEventListener("mousemove", setMouseMoveAxis);
-      window.removeEventListener("click", onClickObjectHandler);
+      window.removeEventListener('mousemove', setMouseMoveAxis);
+      window.removeEventListener('click', onClickObjectHandler);
     };
   }, [animate, init, onClickObjectHandler, setMouseMoveAxis]);
 
   return (
     <>
       <div
-        className={"fixed left-0 top-0 w-screen h-screen z-0"}
+        className={'fixed left-0 top-0 z-0 h-screen w-screen'}
         ref={canvasRef}
       />
       <video
@@ -464,22 +464,22 @@ const FrontEndPF: React.FC<FrontEndPFProps> = ({ toggleMusic }) => {
         playsInline
         loop
         autoPlay
-        width={"1920"}
-        height={"720"}
-        style={{ display: "block", visibility: "hidden", position: "absolute" }}
+        width={'1920'}
+        height={'720'}
+        style={{ display: 'block', visibility: 'hidden', position: 'absolute' }}
         ref={minttyRef}
       >
-        <source src={MinttyVid} type={"video/mp4"} />
+        <source src={MinttyVid} type={'video/mp4'} />
       </video>
-      <LoadingPortal close={loading === 100}>
+      <Popover open={loading !== 100}>
         <span
           className={
-            "font-genshin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl"
+            'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-genshin text-8xl'
           }
         >
           {loading}%
         </span>
-      </LoadingPortal>
+      </Popover>
     </>
   );
 };

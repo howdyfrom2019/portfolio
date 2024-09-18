@@ -1,6 +1,6 @@
 {
-  "homepage": "https://howdyfrom2019.github.io/portfolio2022",
-  "name": "portfolio2022",
+  "homepage": "https://howdyfrom2019.github.io/portfolio",
+  "name": "portfolio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,11 +26,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "yarn run build",
     "deploy": "shx cp build/index.html build/404.html && gh-pages -d build"
   },
   "eslintConfig": {
@@ -53,8 +53,12 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "customize-cra": "^1.0.0",
     "gh-pages": "^4.0.0",
     "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "react-app-rewired": "^2.2.1",
     "shx": "^0.3.4",
     "tailwindcss": "^3.4.11"
   },

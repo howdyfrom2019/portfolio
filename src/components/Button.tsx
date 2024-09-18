@@ -1,17 +1,21 @@
-import React, { ReactNode } from "react";
+import { cn } from '@/lib/utils/tailwind-util';
+import React, { ComponentPropsWithoutRef, ReactNode } from 'react';
 
-interface ButtonProps {
-  className?: string;
+interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   children?: ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
-  type?: "button" | "submit" | "reset";
 }
-const Button: React.FC<ButtonProps> = ({ className, children, type, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ className, children, ...props }) => {
   return (
-    <button type={type} className={ `${className} font-genshin px-8 pt-4 pb-3.5 rounded-full border-gray border cursor-pointer`} onClick={onClick}>
+    <button
+      className={cn([
+        'cursor-pointer rounded-full border border-gray px-8 pb-3.5 pt-4 font-genshin',
+        className,
+      ])}
+      {...props}
+    >
       {children}
     </button>
-  )
-}
+  );
+};
 
 export default Button;
